@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "<%= offsetFromRoot %>dist/out-tsc",
-    "types": ["node"]
+    "types": ["node"],
     "target": "ES2018",
     "module": "commonjs",
     "lib": ["es2018"],
@@ -18,7 +18,6 @@
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,

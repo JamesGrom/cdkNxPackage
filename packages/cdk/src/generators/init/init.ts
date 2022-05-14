@@ -2,7 +2,6 @@ import {
   addDependenciesToPackageJson,
   convertNxGenerator,
   formatFiles,
-  GeneratorCallback,
   Tree,
 } from '@nrwl/devkit';
 import {
@@ -44,5 +43,10 @@ export async function initGenerator(host: Tree, options: CdkAppOptions) {
     },
     {}
   );
-  return null;
+  await formatFiles(host);
+  return async () => {
+    await installTask();
+  };
 }
+export default initGenerator;
+export const initSchematic = convertNxGenerator(initGenerator);

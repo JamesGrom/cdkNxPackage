@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "cdk",
+  "version": "0.0.1",
+  "generators": {
+    "cdk": {
+      "factory": "./src/generators/cdk/generator",
+      "schema": "./src/generators/cdk/schema.json",
+      "description": "cdk generator"
+    }
+  }
+}

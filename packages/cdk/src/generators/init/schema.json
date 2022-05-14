@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "AwsCdkInitArgs",
+  "title": "Add AWS CDK Schematics",
+  "type": "object",
+  "properties": {
+    "stackName": {
+      "description": "name of the app's stack, one of prod || dev || james || ian || aaron",
+      "type": "string",
+      "enum": ["prod", "dev", "james", "ian", "aaron"],
+      "default": "dev"
+    },
+    "cdkVersion": {
+      "description": "version of aws-cdk-lib to be used",
+      "type": "string",
+      "default": ""
+    },
+    "appsyncTransformerVersion": {
+      "description": "version of  cdk-appsync-transformer",
+      "type": "string",
+      "default": ""
+    },
+    "appsyncVersion": {
+      "description": "version of  @aws-cdk/aws-appsync-alpha",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "required": []
+}

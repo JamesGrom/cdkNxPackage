@@ -1,4 +1,4 @@
-export interface CdkAppOptions {
+export interface InitCdkOptions {
   stackName: string;
   cdkVersion?: string;
   appsyncTransformerVersion?: string;

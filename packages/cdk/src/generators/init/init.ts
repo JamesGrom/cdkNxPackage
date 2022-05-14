@@ -9,8 +9,8 @@ import {
   DEFAULT_APPSYNC_TRANSFORMER_VERSION,
   DEFAULT_APPSYNC_VERSION,
 } from '../../sharedVars';
-import { CdkAppOptions } from './schema';
-function normalizeArgs(schema: CdkAppOptions) {
+import { InitCdkOptions } from './schema';
+function normalizeArgs(schema: InitCdkOptions) {
   return {
     ...schema,
     cdkVersion:
@@ -28,7 +28,7 @@ function normalizeArgs(schema: CdkAppOptions) {
         : DEFAULT_APPSYNC_VERSION,
   };
 }
-export async function initGenerator(host: Tree, options: CdkAppOptions) {
+export async function initGenerator(host: Tree, options: InitCdkOptions) {
   const args = normalizeArgs(options);
   console.log(`initGenerator(${host},${args})`);
   const installTask = addDependenciesToPackageJson(

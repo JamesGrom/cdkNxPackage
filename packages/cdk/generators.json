@@ -7,6 +7,12 @@
       "factory": "./src/generators/cdk/generator",
       "schema": "./src/generators/cdk/schema.json",
       "description": "cdk generator"
+    },
+    "init": {
+      "factory": "./src/generators/init/init",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init cdk generator",
+      "hidden": true
     }
   }
 }

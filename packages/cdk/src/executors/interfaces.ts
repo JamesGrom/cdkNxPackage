@@ -1,25 +1,28 @@
 export interface ParsedExecutorInterface {
   parseArgs?: Record<string, string>;
-  stacks?: string[];
+  branch: string;
   app?: string;
   sourceRoot: string;
   root: string;
 }
 
 export enum KeysForBuildExecutorProps {
-  stacks = 'stacks',
+  branch = 'branch',
 }
 type baseBuildExecutorProps = {
   [KeyName in KeysForBuildExecutorProps]: any;
 };
-// type t = {
-// }
 
-// type PropsForBuildExecutor extends {[T keyof KeysForBuildExecutorProps]: any}
-export interface PropsForBuildExecutor extends baseBuildExecutorProps {
-  stacks: string[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PropsForBuildExecutor extends baseBuildExecutorProps {}
+
 export enum Executors {
   Build = 'Build',
+  Synth = 'Synth',
   Deploy = 'Deploy',
+}
+
+export enum Commands {
+  synth = 'synth',
+  deploy = 'deploy',
 }

@@ -16,6 +16,11 @@
       "type": "string",
       "default": ""
     },
+    "cdkCLIVersion": {
+      "description": "version of aws-cdk to be used",
+      "type": "string",
+      "default": ""
+    },
     "appsyncTransformerVersion": {
       "description": "version of  cdk-appsync-transformer",
       "type": "string",

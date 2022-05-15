@@ -5,6 +5,11 @@
       "implementation": "./src/executors/build/executor",
       "schema": "./src/executors/build/schema.json",
       "description": "build executor"
+    },
+    "synth": {
+      "implementation": "./src/executors/synth/executor",
+      "schema": "./src/executors/synth/schema.json",
+      "description": "synth executor"
     }
   }
 }

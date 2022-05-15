@@ -6,6 +6,7 @@ import {
 } from '@nrwl/devkit';
 import {
   DEFAULT_CDK_VERSION,
+  DEFAULT_CDK_CLI_VERSION,
   DEFAULT_APPSYNC_TRANSFORMER_VERSION,
   DEFAULT_APPSYNC_VERSION,
 } from '../../sharedVars';
@@ -17,6 +18,10 @@ function normalizeArgs(schema: InitCdkOptions) {
       schema.cdkVersion != null && schema.cdkVersion !== ''
         ? schema.cdkVersion
         : DEFAULT_CDK_VERSION,
+    cdkCLIVersion:
+      schema.cdkCLIVersion != null && schema.cdkCLIVersion !== ''
+        ? schema.cdkCLIVersion
+        : DEFAULT_CDK_CLI_VERSION,
     appsyncTransformerVersion:
       schema.appsyncTransformerVersion != null &&
       schema.appsyncTransformerVersion !== ''
@@ -35,6 +40,7 @@ export async function initGenerator(host: Tree, options: InitCdkOptions) {
     host,
     {
       'aws-cdk-lib': `${args.cdkVersion}`,
+      'aws-cdk': `${args.cdkCLIVersion}`,
       '@aws-cdk/aws-appsync-alpha': `${args.appsyncVersion}`,
       'cdk-appsync-transformer': `${args.appsyncTransformerVersion}`,
       constructs: '^10.0.118',

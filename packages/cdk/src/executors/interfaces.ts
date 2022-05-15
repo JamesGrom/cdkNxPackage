@@ -16,6 +16,7 @@ type baseBuildExecutorProps = {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PropsForBuildExecutor extends baseBuildExecutorProps {}
 
+// depricated
 export enum Executors {
   Build = 'Build',
   Synth = 'Synth',
@@ -24,5 +25,6 @@ export enum Executors {
 
 export enum Commands {
   synth = 'synth',
+  synthLocal = 'synthLocal',
   deploy = 'deploy',
 }

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "local executor",
+  "description": "runs cdk synth local for the given stack",
+  "type": "object",
+  "properties": {
+    "stackName": {
+      "type": "string",
+      "description": "name of current stack"
+    }
+  },
+  "required": ["stackName"]
+}

@@ -10,6 +10,11 @@
       "implementation": "./src/executors/synth/executor",
       "schema": "./src/executors/synth/schema.json",
       "description": "synth executor"
+    },
+    "synthlocal": {
+      "implementation": "./src/executors/local/executor",
+      "schema": "./src/executors/local/schema.json",
+      "description": "synth local executor"
     }
   }
 }

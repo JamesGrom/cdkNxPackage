@@ -1,4 +1,4 @@
-import { logger } from '@nrwl/devkit';
+import { logger, offsetFromRoot } from '@nrwl/devkit';
 import { exec } from 'child_process';
 import { ParsedBuildExecutorArgs } from '../executors/build/executor';
 import { BuildExecutorSchema } from '../executors/build/schema';
@@ -8,6 +8,7 @@ import {
   Executors,
   PropsForBuildExecutor,
 } from '../executors/interfaces';
+import { ParsedSynthLocalExecutorArgs } from '../executors/local/executor';
 import { ParsedSynthExecutorArgs } from '../executors/synth/executor';
 
 export function parseArgs(
@@ -30,7 +31,10 @@ export function parseArgs(
 
 export function createCommand(
   command: Commands,
-  options: ParsedBuildExecutorArgs | ParsedSynthExecutorArgs
+  options:
+    | ParsedBuildExecutorArgs
+    | ParsedSynthExecutorArgs
+    | ParsedSynthLocalExecutorArgs
 ) {
   let commandString = `cdk `;
   switch (command) {
@@ -38,6 +42,11 @@ export function createCommand(
       const castedOptions = options as ParsedSynthExecutorArgs;
       commandString += 'synth ';
       commandString += `${castedOptions.stackName} `;
+      return commandString;
+    }
+    case Commands.synthLocal: {
+      const castedOptions = options as ParsedSynthLocalExecutorArgs;
+      commandString += `synth ${castedOptions.stackName} --no-staging > ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
       return commandString;
     }
     default: {

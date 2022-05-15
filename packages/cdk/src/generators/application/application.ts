@@ -79,6 +79,9 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       synth: {
         executor: `@authillo/cdk:synth`,
       },
+      synthlocal: {
+        executor: `@authillo/cdk:synthlocal`,
+      },
     },
     tags: normalizedOptions.parsedTags,
   };

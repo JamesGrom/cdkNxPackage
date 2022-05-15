@@ -79,14 +79,6 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       synth: {
         executor: `@authillo/cdk:synth`,
       },
-      //   deploy: {
-      //     executor: '@codebrew/nx-aws-cdk:deploy',
-      //     options: {},
-      //   },
-      //   destroy: {
-      //     executor: '@codebrew/nx-aws-cdk:destroy',
-      //     options: {},
-      //   },
     },
     tags: normalizedOptions.parsedTags,
   };

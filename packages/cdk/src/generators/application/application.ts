@@ -77,12 +77,18 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         executor: `@authillo/cdk:build`,
       },
       synth: {
+        outputs: ['{options.outputPath}'],
         executor: `@authillo/cdk:synth`,
       },
       synthlocal: {
+        // dependsOn: [
+        //   { projects: 'dependencies', target: 'synth' },
+        //   { projects: 'dependencies', target: 'deploy' },
+        // ],
         executor: `@authillo/cdk:synthlocal`,
       },
       deploy: {
+        // outputs: ['{options.outputPath}'],
         executor: `@authillo/cdk:deploy`,
       },
     },

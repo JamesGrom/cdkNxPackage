@@ -82,6 +82,9 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       synthlocal: {
         executor: `@authillo/cdk:synthlocal`,
       },
+      deploy: {
+        executor: `@authillo/cdk:deploy`,
+      },
     },
     tags: normalizedOptions.parsedTags,
   };

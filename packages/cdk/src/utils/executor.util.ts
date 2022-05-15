@@ -2,6 +2,7 @@ import { logger, offsetFromRoot } from '@nrwl/devkit';
 import { exec } from 'child_process';
 import { ParsedBuildExecutorArgs } from '../executors/build/executor';
 import { BuildExecutorSchema } from '../executors/build/schema';
+import { ParsedDeployExecutorArgs } from '../executors/deploy/executor';
 export const LARGE_BUFFER = 1024 * 1000000;
 import {
   Commands,
@@ -47,6 +48,12 @@ export function createCommand(
     case Commands.synthLocal: {
       const castedOptions = options as ParsedSynthLocalExecutorArgs;
       commandString += `synth ${castedOptions.stackName} --no-staging > ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
+      return commandString;
+    }
+    case Commands.deploy: {
+      const castedOptions = options as ParsedDeployExecutorArgs;
+      // commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
+      commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.stackName}.outputs.json`;
       return commandString;
     }
     default: {

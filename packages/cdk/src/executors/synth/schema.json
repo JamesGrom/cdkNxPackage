@@ -5,6 +5,11 @@
   "description": "runs cdk synth for the given stack",
   "type": "object",
   "properties": {
+    "defaultStackName": {
+      "type": "string",
+      "description": "default stackName if none is provided",
+      "default": "backend"
+    },
     "stackName": {
       "type": "string",
       "description": "name of current stack"
@@ -22,5 +27,5 @@
       "description": "regex that must be satisfied for a stackName to be valid"
     }
   },
-  "required": ["stackName", "local"]
+  "required": ["local"]
 }

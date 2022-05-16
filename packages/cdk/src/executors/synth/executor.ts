@@ -53,7 +53,7 @@ function normalizeArgs(
   options: SynthExecutorSchema,
   context: ExecutorContext
 ): ParsedSynthExecutorArgs {
-  const stackName: string = options.stackName;
+  const stackName: string = options.stackName ?? options.defaultStackName;
   const stackNameRegexString = options.stackNameRegexString;
   if (
     stackNameRegexString != null &&
@@ -83,7 +83,7 @@ function normalizeLocalArgs(
   options: SynthExecutorSchema,
   context: ExecutorContext
 ): ParsedSynthLocalExecutorArgs {
-  const stackName: string = options.stackName;
+  const stackName: string = options.stackName ?? options.defaultStackName;
   const stackNameRegexString = options.stackNameRegexString;
   if (
     stackNameRegexString != null &&

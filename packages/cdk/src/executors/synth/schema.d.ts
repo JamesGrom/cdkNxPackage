@@ -1,5 +1,6 @@
 export interface SynthExecutorSchema {
-  stackName: string;
+  stackName?: string;
+  defaultStackName: string;
   local: boolean;
   stackNameRegexString?: string;
 }

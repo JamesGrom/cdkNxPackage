@@ -1,4 +1,4 @@
-import { logger, offsetFromRoot } from '@nrwl/devkit';
+import { logger } from '@nrwl/devkit';
 import { exec } from 'child_process';
 import { ParsedBuildExecutorArgs } from '../executors/build/executor';
 import { BuildExecutorSchema } from '../executors/build/schema';
@@ -9,8 +9,10 @@ import {
   Executors,
   PropsForBuildExecutor,
 } from '../executors/interfaces';
-import { ParsedSynthLocalExecutorArgs } from '../executors/local/executor';
-import { ParsedSynthExecutorArgs } from '../executors/synth/executor';
+import {
+  ParsedSynthExecutorArgs,
+  ParsedSynthLocalExecutorArgs,
+} from '../executors/synth/executor';
 
 export function parseArgs(
   whichExecutor: Executors,
@@ -65,7 +67,7 @@ export function runCommandProcess(
   command: string,
   cwd: string
 ): Promise<boolean> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     logger.info(`Executing command: ${command}`);
     const childProcess = exec(command, {
       maxBuffer: LARGE_BUFFER,

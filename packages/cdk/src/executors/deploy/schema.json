@@ -7,8 +7,13 @@
   "properties": {
     "stackName": {
       "type": "string",
-      "description": "name of current stack"
+      "description": "name of current stack",
+      "default": "backend"
+    },
+    "stackNameRegexString": {
+      "type": "string",
+      "description": "regex that must be satisfied for a stackName to be valid"
     }
   },
-  "required": ["stackName"]
+  "required": []
 }

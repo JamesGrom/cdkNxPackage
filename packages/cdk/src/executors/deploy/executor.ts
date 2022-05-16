@@ -36,8 +36,11 @@ function normalizeArgs(
   context: ExecutorContext
 ): ParsedDeployExecutorArgs {
   const stackName: string = options.stackName;
-  const checkStackNameConvention = /^authillo-[a-z]*$/;
-  if (stackName.match(checkStackNameConvention).length !== 1)
+  const stackNameRegexString = options.stackNameRegexString;
+  if (
+    stackNameRegexString != null &&
+    (stackName.match(RegExp(stackNameRegexString))?.length ?? 0) < 1
+  )
     throw 'invalid stackname used';
   const currentConfig =
     context?.workspace?.projects?.[context.projectName ?? ''];

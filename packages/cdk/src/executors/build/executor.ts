@@ -13,7 +13,7 @@ export interface ParsedBuildExecutorArgs extends ParsedExecutorInterface {
 }
 export default async function runExecutor(
   options: BuildExecutorSchema,
-  context: ExecutorContext
+  context?: ExecutorContext
 ) {
   console.log('Executor ran for Build', options);
   const normalizedArgs = normalizeArgs(options, context);

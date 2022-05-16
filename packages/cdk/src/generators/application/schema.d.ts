@@ -1,6 +1,6 @@
 import { InitCdkOptions } from '../init/schema';
 export interface CdkAppOptions extends InitCdkOptions {
-  name: string;
+  projName?: string;
   directory?: string;
   tags?: string;
 }

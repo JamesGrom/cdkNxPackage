@@ -5,6 +5,10 @@
   "title": "Add AWS CDK app",
   "type": "object",
   "properties": {
+    "projName": {
+      "type": "string",
+      "description": "name of the cdk application to be created"
+    },
     "directory": {
       "type": "string",
       "description": "A directory where the project is placed",

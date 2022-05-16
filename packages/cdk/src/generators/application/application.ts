@@ -27,7 +27,7 @@ function normalizeOptions(
   host: Tree,
   options: CdkAppOptions
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
+  const name = names(options.projName ?? 'backend').fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;

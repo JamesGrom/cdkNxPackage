@@ -8,6 +8,11 @@
       "schema": "./src/generators/cdk/schema.json",
       "description": "cdk generator"
     },
+    "cdkoutputs": {
+      "factory": "./src/generators/cdkoutputs/cdkoutputs",
+      "schema": "./src/generators/cdkoutputs/schema.json",
+      "description": "generator for cdk outputs library"
+    },
     "init": {
       "factory": "./src/generators/init/init",
       "schema": "./src/generators/init/schema.json",

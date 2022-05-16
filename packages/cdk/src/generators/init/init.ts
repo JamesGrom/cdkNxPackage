@@ -43,6 +43,8 @@ export async function initGenerator(host: Tree, options: InitCdkOptions) {
       'aws-cdk': `${args.cdkCLIVersion}`,
       '@aws-cdk/aws-appsync-alpha': `${args.appsyncVersion}`,
       'cdk-appsync-transformer': `${args.appsyncTransformerVersion}`,
+      '@nrwl/js': '^13.8.3',
+      '@nrwl/node': '^13.8.3',
       constructs: '^10.0.118',
       dotenv: '^16.0.0',
       'source-map-support': '^0.5.16',

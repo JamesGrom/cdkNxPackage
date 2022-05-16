@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "AWSCdkApplication",
+  "title": "Add AWS CDK app",
+  "type": "object",
+  "properties": {
+    "projName": {
+      "type": "string",
+      "description": "name of the lib project to be created"
+    }
+  },
+  "required": []
+}

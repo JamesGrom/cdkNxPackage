@@ -1,6 +1,7 @@
 import {
   Tree,
   convertNxGenerator,
+  formatFiles,
   names,
   getWorkspaceLayout,
   offsetFromRoot,
@@ -59,6 +60,20 @@ function addFiles(host: Tree, options: NormalizedSchema) {
     templateOptions
   );
 }
+function addBackendFiles(host: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.projectName),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    host,
+    path.join(__dirname, 'backendfiles'),
+    options.projectRoot,
+    templateOptions
+  );
+}
 
 export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
   const tasks: GeneratorCallback[] = [];
@@ -97,28 +112,70 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     },
     tags: normalizedOptions.parsedTags,
   };
-  // const localAssetLibrary: ProjectConfiguration = {
-  //   root: normalizedOptions.projectRoot,
-  //   projectType: 'library',
-  //   sourceRoot: `${normalizedOptions.projectRoot}/src`,
-  //   targets: {
-  //     build: {
-  //       executor: `@authillo/cdk:buildenv`,
-  //       defaultConfiguration: 'remote',
-  //       configurations: {
-  //         local: {},
-  //         remote: {},
-  //       },
-  //     },
-  //   },
-  // };
-  addProjectConfiguration(host, normalizedOptions.projectName, project);
-  const workspace = readWorkspaceConfiguration(host);
 
+  addProjectConfiguration(host, normalizedOptions.projectName, project);
+  const normalizedBackendOptions = normalizeFromBackendOptions(host, options);
+  const frombackend: ProjectConfiguration = {
+    root: normalizedBackendOptions.projectRoot,
+    projectType: 'library',
+    sourceRoot: `${normalizedBackendOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@nrwl/js:tsc',
+        outputs: ['{options.outputPath}'],
+        options: {
+          outputPath: `dist/libs/${normalizedBackendOptions.projName}`, //'dist/libs/gql-operations',
+          tsConfig: `libs/${normalizedBackendOptions.projName}/tsconfig.lib.json`,
+          packageJson: `libs/${normalizedBackendOptions.projName}/package.json`,
+          main: `libs/${normalizedBackendOptions.projName}/src/index.ts`, // 'libs/gql-operations/src/index.ts',
+          assets: [`libs/${normalizedBackendOptions.projName}/*.md`],
+        },
+      },
+      // build: {
+      //   executor: `@authillo/cdk:buildenv`,
+      //   defaultConfiguration: 'default',
+      //   configurations: {
+      //     local: {
+      //       local: true,
+      //     },
+      //     default: {
+      //       local: false,
+      //     },
+      //   },
+      // },
+    },
+  };
+  addProjectConfiguration(
+    host,
+    `${normalizedBackendOptions.projectName}`,
+    frombackend
+  );
+  const workspace = readWorkspaceConfiguration(host);
   updateWorkspaceConfiguration(host, workspace);
   addFiles(host, normalizedOptions);
-
+  addBackendFiles(host, normalizedBackendOptions);
+  await formatFiles(host);
   return runTasksInSerial(...tasks);
 }
+function normalizeFromBackendOptions(
+  host: Tree,
+  options: CdkAppOptions
+): NormalizedSchema {
+  const name = names(`from${options.projName ?? 'backend'}`).fileName;
+  const projectDirectory = name;
+  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+  const projectRoot = `${getWorkspaceLayout(host).libsDir}/${projectDirectory}`;
+  const parsedTags = options.tags
+    ? options.tags.split(',').map((s) => s.trim())
+    : [];
+  return {
+    ...options,
+    projectName,
+    projectRoot,
+    projectDirectory,
+    parsedTags,
+  };
+}
+
 export default applicationGenerator;
 export const applicationSchematic = convertNxGenerator(applicationGenerator);

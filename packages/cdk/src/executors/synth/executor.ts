@@ -14,7 +14,10 @@ export default async function runExecutor(
   options: SynthExecutorSchema,
   context: ExecutorContext
 ) {
-  console.log('Executor running for Synth', options);
+  console.log(
+    `Executor running for Synth with config = ${context.configurationName}`,
+    options
+  );
   const normalizedArgs = normalizeArgs(options, context);
   const result = await runSynth(normalizedArgs, context);
   return {
@@ -34,8 +37,11 @@ function normalizeArgs(
   context: ExecutorContext
 ): ParsedSynthExecutorArgs {
   const stackName: string = options.stackName;
-  const checkStackNameConvention = /^authillo-[a-z]*$/;
-  if (stackName.match(checkStackNameConvention).length !== 1)
+  const stackNameRegexString = options.stackNameRegexString;
+  if (
+    stackNameRegexString != null &&
+    (stackName.match(RegExp(stackNameRegexString))?.length ?? 0) < 1
+  )
     throw 'invalid stackname used';
   const currentConfig =
     context?.workspace?.projects?.[context.projectName ?? ''];

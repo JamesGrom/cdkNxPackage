@@ -78,6 +78,16 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       },
       synth: {
         outputs: ['{options.outputPath}'],
+        defaultConfiguration: 'default',
+        configurations: {
+          default: {
+            local: false,
+            stackNameRegexString: `^authillo-[a-z]*$`,
+          },
+          local: {
+            local: true,
+          },
+        },
         executor: `@authillo/cdk:synth`,
       },
       synthlocal: {
@@ -94,6 +104,21 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     },
     tags: normalizedOptions.parsedTags,
   };
+  // const localAssetLibrary: ProjectConfiguration = {
+  //   root: normalizedOptions.projectRoot,
+  //   projectType: 'library',
+  //   sourceRoot: `${normalizedOptions.projectRoot}/src`,
+  //   targets: {
+  //     build: {
+  //       executor: `@authillo/cdk:buildenv`,
+  //       defaultConfiguration: 'remote',
+  //       configurations: {
+  //         local: {},
+  //         remote: {},
+  //       },
+  //     },
+  //   },
+  // };
   addProjectConfiguration(host, normalizedOptions.projectName, project);
   const workspace = readWorkspaceConfiguration(host);
 

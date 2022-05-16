@@ -8,7 +8,19 @@
     "stackName": {
       "type": "string",
       "description": "name of current stack"
+    },
+    "local": {
+      "type": "boolean",
+      "description": "denotes to run local synth or not"
+    },
+    "strictStackNameChecking": {
+      "type": "boolean",
+      "description": "prevents stacks that don't satisfy stackNameRegex from being created"
+    },
+    "stackNameRegexString": {
+      "type": "string",
+      "description": "regex that must be satisfied for a stackName to be valid"
     }
   },
-  "required": ["stackName"]
+  "required": ["stackName", "local"]
 }

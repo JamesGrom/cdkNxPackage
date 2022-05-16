@@ -82,7 +82,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         configurations: {
           default: {
             local: false,
-            stackNameRegexString: `^authillo-[a-z]*$`,
+            // stackNameRegexString: `^authillo-[a-z]*$`,
           },
           local: {
             local: true,

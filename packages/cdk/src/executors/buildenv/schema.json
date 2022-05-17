@@ -13,7 +13,11 @@
     "cdkOutputsFileName": {
       "type": "string",
       "description": "denotes name of file produced by cdk deploy -O",
-      "default": "backend.outputs.json"
+      "default": "cdk.outputs.json"
+    },
+    "pathToTemplateFile": {
+      "type": "string",
+      "description": "path to local-template.yaml "
     }
   },
   "required": []

@@ -1,0 +1,13 @@
+export const validateEnvVals = (vals: { [key: string]: any }) => {
+  const throwStrings: string[] = [];
+  Object.keys(vals).forEach((val) => {
+    if (vals[val] === 'invalid' || vals[val] == null) {
+      console.log(val, vals[val]);
+      throwStrings.push(` ${val}= ${vals[val]} ,`);
+    }
+  });
+  if (throwStrings.length > 0)
+    throw throwStrings.reduce((prev, current) => {
+      return prev + current;
+    }, 'Invalid env variable values');
+};

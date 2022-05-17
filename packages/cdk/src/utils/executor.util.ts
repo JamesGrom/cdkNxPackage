@@ -56,15 +56,15 @@ export function createCommand(
     }
     case Commands.buildEnv: {
       const castedOptions = options as ParsedBuildEnvExecutorArgs;
-      commandString = `node ${
-        castedOptions.local ? 'localBuilder.js' : 'Builder.js'
-      }`;
+      commandString = `ts-node ${
+        castedOptions.local ? 'builders/localBuilder.ts' : 'builders/Builder.ts'
+      } cdkOutputs/${castedOptions.fileName}`;
       return commandString;
     }
     case Commands.deploy: {
       const castedOptions = options as ParsedDeployExecutorArgs;
       // commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
-      commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}libs/from${castedOptions.projectName}/${castedOptions.stackName}.outputs.json`;
+      commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}libs/from${castedOptions.projectName}/cdkOutputs/${castedOptions.stackName}.outputs.json`;
       return commandString;
     }
     default: {

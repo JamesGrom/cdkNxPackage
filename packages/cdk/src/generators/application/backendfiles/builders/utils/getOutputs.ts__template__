@@ -1,0 +1,4 @@
+import fs from 'fs';
+export const getOutputs = (filePath: string) => {
+  return JSON.parse(fs.readFileSync(filePath).toString());
+};

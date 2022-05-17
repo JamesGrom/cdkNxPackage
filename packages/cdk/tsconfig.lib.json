@@ -5,6 +5,10 @@
     "declaration": true,
     "types": []
   },
-  "include": ["**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "src/generators/application/backendfiles/builders/localBuilder.ts__template__",
+    "src/generators/application/backendfiles/builders/Builder.ts__template__"
+  ],
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
 }

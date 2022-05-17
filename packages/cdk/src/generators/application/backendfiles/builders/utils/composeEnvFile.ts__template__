@@ -1,0 +1,4 @@
+import fs from 'fs';
+export const composeEnvFile = (data: string, filePath: string) => {
+  fs.writeFileSync(filePath, data);
+};

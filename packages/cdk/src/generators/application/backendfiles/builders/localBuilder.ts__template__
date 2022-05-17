@@ -1,1 +1,19 @@
-console.log('hello from localBuilder');
+import { composeEnvFile } from './utils/composeEnvFile';
+import { getOutputs } from './utils/getOutputs';
+import { validateEnvVals } from './utils/validateEnvVals';
+const defaultOutputValues = {
+  appsyncURL: 'invalid',
+  restURL: 'invalid',
+};
+const normalizeCdkOutputs = (input: object) => {
+  return {
+    ...defaultOutputValues,
+    ...input,
+  };
+};
+const outputs: any = getOutputs(`${process.argv[2]}`);
+console.log(outputs);
+const normalizedOutputs = normalizeCdkOutputs(outputs);
+validateEnvVals(normalizedOutputs);
+const computedFilePath: string = `env/${process.argv[3] ?? 'env.json'}`;
+composeEnvFile(JSON.stringify(normalizedOutputs), computedFilePath);

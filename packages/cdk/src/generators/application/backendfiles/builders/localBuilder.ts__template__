@@ -13,11 +13,13 @@ const normalizeCdkOutputs = (input: object) => {
 };
 
 const outputs: any = getOutputs(`${process.argv[2]}`);
+const stackName = `${process.argv[3]}`;
+if (stackName == null || stackName === '') throw 'invalid stackName';
 console.log(outputs);
 const normalizedOutputs = normalizeCdkOutputs(outputs);
 validateEnvVals(normalizedOutputs);
-getLambdaEnvVars('authillo-james').then((remoteEnvs) => {
-  const computedFilePath: string = `env/${process.argv[3] ?? 'env.json'}`;
-  const compositeOutputs = { normalizedOutputs, ...remoteEnvs };
+getLambdaEnvVars(stackName).then((remoteEnvs) => {
+  const computedFilePath: string = `env/${process.argv[4] ?? 'env.json'}`;
+  const compositeOutputs = { ...normalizedOutputs, ...remoteEnvs };
   composeEnvFile(JSON.stringify(compositeOutputs), computedFilePath);
 });

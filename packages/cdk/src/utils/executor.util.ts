@@ -58,7 +58,7 @@ export function createCommand(
       const castedOptions = options as ParsedBuildEnvExecutorArgs;
       commandString = `ts-node ${
         castedOptions.local ? 'builders/localBuilder.ts' : 'builders/Builder.ts'
-      } cdkOutputs/${castedOptions.fileName}`;
+      } cdkOutputs/${castedOptions.fileName} ${castedOptions.stackName} `;
       return commandString;
     }
     case Commands.deploy: {

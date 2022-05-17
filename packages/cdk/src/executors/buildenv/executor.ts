@@ -6,6 +6,7 @@ import { Commands } from '../interfaces';
 import { BuildEnvExecutorSchema } from './schema';
 export interface ParsedBuildEnvExecutorArgs {
   local: boolean;
+  stackName: string;
   root: string;
   fileName: string;
 }
@@ -18,11 +19,6 @@ export default async function runExecutor(
     `Executor running for Synth with config = ${context.configurationName} , options = ${options}`,
     options
   );
-  // console.log(`reading file at: ${context.cwd}`);
-  // const filePath =
-  //   context.cwd + `/libs/${context.projectName}/${options.cdkOutputsFileName}`;
-  // const t = readJsonFile(filePath);
-  // console.log(`file object = ${JSON.stringify(t)}`);
   if (options.local === true) {
     console.log('building local env config');
   } else {
@@ -49,6 +45,7 @@ function normalizeArgs(
   const { root } = currentConfig;
   return {
     local: options.local,
+    stackName: options.stackName,
     fileName: options.cdkOutputsFileName,
     root,
   };

@@ -10,6 +10,11 @@
       "description": "denotes to run local buildenv or not",
       "default": false
     },
+    "stackName": {
+      "type": "string",
+      "description": "name of current stack",
+      "default": "backend"
+    },
     "cdkOutputsFileName": {
       "type": "string",
       "description": "denotes name of file produced by cdk deploy -O",

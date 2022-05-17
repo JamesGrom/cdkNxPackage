@@ -25,6 +25,7 @@ export enum Executors {
 
 export enum Commands {
   synth = 'synth',
+  buildEnv = 'buildEnv',
   synthLocal = 'synthLocal',
   deploy = 'deploy',
 }

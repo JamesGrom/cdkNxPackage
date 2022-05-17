@@ -2,6 +2,7 @@ import { logger } from '@nrwl/devkit';
 import { exec } from 'child_process';
 import { ParsedBuildExecutorArgs } from '../executors/build/executor';
 import { BuildExecutorSchema } from '../executors/build/schema';
+import { ParsedBuildEnvExecutorArgs } from '../executors/buildenv/executor';
 import { ParsedDeployExecutorArgs } from '../executors/deploy/executor';
 export const LARGE_BUFFER = 1024 * 1000000;
 import {
@@ -36,6 +37,7 @@ export function createCommand(
   command: Commands,
   options:
     | ParsedBuildExecutorArgs
+    | ParsedBuildEnvExecutorArgs
     | ParsedSynthExecutorArgs
     | ParsedSynthLocalExecutorArgs
 ) {
@@ -50,6 +52,13 @@ export function createCommand(
     case Commands.synthLocal: {
       const castedOptions = options as ParsedSynthLocalExecutorArgs;
       commandString += `synth ${castedOptions.stackName} --no-staging > ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
+      return commandString;
+    }
+    case Commands.buildEnv: {
+      const castedOptions = options as ParsedBuildEnvExecutorArgs;
+      commandString = `node ${
+        castedOptions.local ? 'localBuilder.js' : 'Builder.js'
+      }`;
       return commandString;
     }
     case Commands.deploy: {

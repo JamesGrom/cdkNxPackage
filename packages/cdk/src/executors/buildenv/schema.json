@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "build environment executor",
+  "description": "builds the environment variables to be used based on cdk outputs ",
+  "type": "object",
+  "properties": {
+    "local": {
+      "type": "boolean",
+      "description": "denotes to run local buildenv or not",
+      "default": false
+    },
+    "cdkOutputsFileName": {
+      "type": "string",
+      "description": "denotes name of file produced by cdk deploy -O",
+      "default": "backend.outputs.json"
+    }
+  },
+  "required": []
+}

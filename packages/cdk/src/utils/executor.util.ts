@@ -55,7 +55,7 @@ export function createCommand(
     case Commands.deploy: {
       const castedOptions = options as ParsedDeployExecutorArgs;
       // commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
-      commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.stackName}.outputs.json`;
+      commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}libs/from${castedOptions.projectName}/${castedOptions.stackName}.outputs.json`;
       return commandString;
     }
     default: {

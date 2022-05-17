@@ -124,11 +124,38 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         executor: '@nrwl/js:tsc',
         outputs: ['{options.outputPath}'],
         options: {
-          outputPath: `dist/libs/${normalizedBackendOptions.projName}`, //'dist/libs/gql-operations',
-          tsConfig: `libs/${normalizedBackendOptions.projName}/tsconfig.lib.json`,
-          packageJson: `libs/${normalizedBackendOptions.projName}/package.json`,
-          main: `libs/${normalizedBackendOptions.projName}/src/index.ts`, // 'libs/gql-operations/src/index.ts',
-          assets: [`libs/${normalizedBackendOptions.projName}/*.md`],
+          outputPath: `dist/libs/${normalizedBackendOptions.projectName}`, //'dist/libs/gql-operations',
+          tsConfig: `libs/${normalizedBackendOptions.projectName}/tsconfig.lib.json`,
+          packageJson: `libs/${normalizedBackendOptions.projectName}/package.json`,
+          main: `libs/${normalizedBackendOptions.projectName}/src/index.ts`, // 'libs/gql-operations/src/index.ts',
+          assets: [`libs/${normalizedBackendOptions.projectName}/*.md`],
+        },
+      },
+      buildenv: {
+        executor: `@authillo/cdk:buildenv`,
+        defaultConfiguration: `default`,
+        configurations: {
+          default: {},
+          local: {
+            local: true,
+          },
+        },
+      },
+      run: {
+        executor: `@nrwl/node:node`,
+        options: {
+          buildTarget: `${normalizedBackendOptions.projectName}:build`,
+        },
+        defaultConfiguration: 'default',
+        configurations: {
+          default: {
+            args: ['local'],
+          },
+          local: {
+            args: {
+              local: true,
+            },
+          },
         },
       },
       // build: {

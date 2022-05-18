@@ -1,0 +1,4 @@
+{
+    "name": "@nx-authillo-mono/<%= projName%>",
+    "version": "0.0.1"
+}

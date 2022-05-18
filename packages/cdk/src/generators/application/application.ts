@@ -88,8 +88,37 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     projectType: 'application',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
+      run: {
+        executor: '@nrwl/node:node',
+        options: {
+          buildTarget: `${normalizedOptions.projectName}:build`,
+          watch: false,
+        },
+      },
       build: {
-        executor: `@authillo/cdk:build`,
+        executor: '@nrwl/js:tsc',
+        outputs: ['{options.outputPath}'],
+        options: {
+          outputPath: `dist/apps/${normalizedOptions.projectName}`,
+          tsConfig: `apps/${normalizedOptions.projectName}/tsconfig.app.json`,
+          packageJson: `apps/${normalizedOptions.projectName}/package.json`, // 'libs/envbuilder/package.json',
+          main: `apps/${normalizedOptions.projectName}/bin/main.ts`, //'libs/envbuilder/src/index.ts',
+          assets: [],
+        },
+        configurations: {
+          // production: {
+          //   optimization: true,
+          //   extractLicenses: true,
+          //   inspect: false,
+          //   fileReplacements: [
+          //     {
+          //       replace:
+          //         'apps/lambdas/authorize/src/environments/environment.ts',
+          //       with: 'apps/lambdas/authorize/src/environments/environment.prod.ts',
+          //     },
+          //   ],
+          // },
+        },
       },
       synth: {
         outputs: ['{options.outputPath}'],

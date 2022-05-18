@@ -105,6 +105,15 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         },
         executor: `@authillo/cdk:synth`,
       },
+      serve: {
+        executor: '@authillo/cdk:serve',
+        defaultConfiguration: 'default',
+        configurations: {
+          default: {
+            stackName: 'backend',
+          },
+        },
+      },
       deploy: {
         // outputs: ['{options.outputPath}'],
         executor: `@authillo/cdk:deploy`,

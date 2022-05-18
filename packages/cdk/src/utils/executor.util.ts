@@ -10,6 +10,7 @@ import {
   Executors,
   PropsForBuildExecutor,
 } from '../executors/interfaces';
+import { ParsedServeExecutorArgs } from '../executors/serve/executor';
 import {
   ParsedSynthExecutorArgs,
   ParsedSynthLocalExecutorArgs,
@@ -40,6 +41,7 @@ export function createCommand(
     | ParsedBuildEnvExecutorArgs
     | ParsedSynthExecutorArgs
     | ParsedSynthLocalExecutorArgs
+    | ParsedServeExecutorArgs
 ) {
   let commandString = `cdk `;
   switch (command) {
@@ -59,6 +61,11 @@ export function createCommand(
       commandString = `ts-node ${
         castedOptions.local ? 'builders/localBuilder.ts' : 'builders/Builder.ts'
       } cdkOutputs/${castedOptions.fileName} ${castedOptions.stackName} `;
+      return commandString;
+    }
+    case Commands.serve: {
+      const castedOptions = options as ParsedServeExecutorArgs;
+      commandString = `sam local start-api -t ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.stackName}/local-template.yaml -l logs.txt -n ${castedOptions.offsetFromRoot}libs/from${castedOptions.stackName}/env/env.json`;
       return commandString;
     }
     case Commands.deploy: {

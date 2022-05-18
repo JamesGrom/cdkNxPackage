@@ -12,18 +12,15 @@
     },
     "logFile": {
       "type": "string",
-      "description": "path to logFile used for lambda logs",
-      "default": "logs.txt"
+      "description": "path to logFile used for lambda logs"
     },
     "envFile": {
       "type": "string",
-      "description": "(root relative) path to env file used for setting env variables in lambda functions",
-      "default": "libs/frombackend/env/env.json"
+      "description": "(root relative) path to env file used for setting env variables in lambda functions"
     },
     "templateFile": {
       "type": "string",
-      "description": "(root relative) path to template file used as source for sam",
-      "default": "dist/apps/backend/local-template.yaml"
+      "description": "(root relative) path to template file used as source for sam"
     }
   },
   "required": []

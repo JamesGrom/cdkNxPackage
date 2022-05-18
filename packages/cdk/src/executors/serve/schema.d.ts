@@ -7,6 +7,7 @@
 
 export interface ServeExecutorSchema {
   stackName: string;
-  logFile: string;
-  envFile: string;
+  logFile?: string;
+  envFile?: string;
+  templateFile?: string;
 }

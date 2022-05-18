@@ -65,7 +65,7 @@ export function createCommand(
     }
     case Commands.serve: {
       const castedOptions = options as ParsedServeExecutorArgs;
-      commandString = `sam local start-api -t ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.stackName}/local-template.yaml -l ${castedOptions.logFile} -n ${castedOptions.offsetFromRoot}libs/from${castedOptions.stackName}/env/env.json`;
+      commandString = `sam local start-api -t ${castedOptions.offsetFromRoot}${castedOptions.templateFile} -l ${castedOptions.logFile} -n ${castedOptions.offsetFromRoot}${castedOptions.envFile}`;
       return commandString;
     }
     case Commands.deploy: {

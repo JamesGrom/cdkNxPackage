@@ -9,6 +9,8 @@ export interface ParsedServeExecutorArgs {
   sourceRoot: string;
   stackName: string;
   logFile: string;
+  envFile: string;
+  templateFile: string;
   offsetFromRoot: string;
   root: string;
 }
@@ -44,6 +46,11 @@ function normalizeArgs(
   console.log(offset);
   return {
     ...options,
+    templateFile:
+      options.templateFile ??
+      `dist/apps/${options.stackName}/local-template.yaml`,
+    envFile: options.envFile ?? `libs/from${options.stackName}/env/env.json`,
+    logFile: options.logFile ?? 'logs.txt',
     offsetFromRoot: offset,
     root,
     sourceRoot,

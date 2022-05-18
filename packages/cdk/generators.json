@@ -3,26 +3,16 @@
   "name": "cdk",
   "version": "0.0.1",
   "generators": {
-    "cdk": {
-      "factory": "./src/generators/cdk/generator",
-      "schema": "./src/generators/cdk/schema.json",
-      "description": "cdk generator"
-    },
-    "cdkoutputs": {
-      "factory": "./src/generators/cdkoutputs/cdkoutputs",
-      "schema": "./src/generators/cdkoutputs/schema.json",
-      "description": "generator for cdk outputs library"
+    "application": {
+      "factory": "./src/generators/application/application",
+      "schema": "./src/generators/application/schema.json",
+      "description": "build cdk app generator"
     },
     "init": {
       "factory": "./src/generators/init/init",
       "schema": "./src/generators/init/schema.json",
       "description": "init cdk generator",
       "hidden": true
-    },
-    "application": {
-      "factory": "./src/generators/application/application",
-      "schema": "./src/generators/application/schema.json",
-      "description": "build cdk app generator"
     }
   }
 }

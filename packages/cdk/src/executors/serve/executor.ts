@@ -8,6 +8,7 @@ import { ServeExecutorSchema } from './schema';
 export interface ParsedServeExecutorArgs {
   sourceRoot: string;
   stackName: string;
+  logFile: string;
   offsetFromRoot: string;
   root: string;
 }

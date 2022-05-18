@@ -9,6 +9,21 @@
       "type": "string",
       "description": "name of the stack to be served",
       "default": "backend"
+    },
+    "logFile": {
+      "type": "string",
+      "description": "path to logFile used for lambda logs",
+      "default": "logs.txt"
+    },
+    "envFile": {
+      "type": "string",
+      "description": "(root relative) path to env file used for setting env variables in lambda functions",
+      "default": "libs/frombackend/env/env.json"
+    },
+    "templateFile": {
+      "type": "string",
+      "description": "(root relative) path to template file used as source for sam",
+      "default": "dist/apps/backend/local-template.yaml"
     }
   },
   "required": []

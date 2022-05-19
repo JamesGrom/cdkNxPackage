@@ -75,6 +75,21 @@ function addBackendFiles(host: Tree, options: NormalizedSchema) {
   );
 }
 
+function addExampleLambdaFiles(host: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.projectName),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    host,
+    path.join(__dirname, 'lambda'),
+    options.projectRoot,
+    templateOptions
+  );
+}
+
 export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
   const tasks: GeneratorCallback[] = [];
   const normalizedOptions = normalizeOptions(host, options);
@@ -192,10 +207,40 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     `${normalizedBackendOptions.projectName}`,
     frombackend
   );
+  const normalizedExampleLambdaOptions = normalizeExampleLambdaOptions(
+    host,
+    options
+  );
+  const exampleLambda: ProjectConfiguration = {
+    root: normalizedExampleLambdaOptions.projectRoot,
+    projectType: 'application',
+    sourceRoot: `${normalizedExampleLambdaOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@nrwl/node:webpack',
+        outputs: ['{options.outputPath}'],
+        options: {
+          // outputPath: `apps/${normalizedOptions.projectName}/functions/${normalizedExampleLambdaOptions.projectName}`,
+          outputPath: `dist/apps/${normalizedExampleLambdaOptions.projectName}`,
+          main: `apps/${normalizedExampleLambdaOptions.projectName}/src/main.ts`,
+          tsConfig: `apps/${normalizedExampleLambdaOptions.projectName}/tsconfig.app.json`,
+          externalDependencies: 'none',
+          outputFileName: 'index.js',
+        },
+      },
+    },
+  };
+  addProjectConfiguration(
+    host,
+    `${normalizedExampleLambdaOptions.projectName}`,
+    exampleLambda
+  );
+
   const workspace = readWorkspaceConfiguration(host);
   updateWorkspaceConfiguration(host, workspace);
   addFiles(host, normalizedOptions);
   addBackendFiles(host, normalizedBackendOptions);
+  addExampleLambdaFiles(host, normalizedExampleLambdaOptions);
   await formatFiles(host);
   return runTasksInSerial(...tasks);
 }
@@ -207,6 +252,26 @@ function normalizeFromBackendOptions(
   const projectDirectory = name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
   const projectRoot = `${getWorkspaceLayout(host).libsDir}/${projectDirectory}`;
+  const parsedTags = options.tags
+    ? options.tags.split(',').map((s) => s.trim())
+    : [];
+  return {
+    ...options,
+    projectName,
+    projectRoot,
+    projectDirectory,
+    parsedTags,
+  };
+}
+
+function normalizeExampleLambdaOptions(
+  host: Tree,
+  options: CdkAppOptions
+): NormalizedSchema {
+  const name = names(`rootlambda`).fileName;
+  const projectDirectory = name;
+  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+  const projectRoot = `${getWorkspaceLayout(host).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];

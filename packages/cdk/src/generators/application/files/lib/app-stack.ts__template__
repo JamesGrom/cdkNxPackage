@@ -1,10 +1,40 @@
-import * as cdk from "aws-cdk-lib";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 export class AppStack extends cdk.Stack {
-    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-        super(scope, id, props);
-
-        // defines your stack here
-    }
+  public api: cdk.aws_apigateway.RestApi;
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+    // const basicEndpoint
+    this.api = new cdk.aws_apigateway.RestApi(
+      this,
+      `basicapi-${props?.stackName}`,
+      {
+        description: `api gateway for ${props?.stackName} stack`,
+        endpointConfiguration: {
+          types: [cdk.aws_apigateway.EndpointType.EDGE],
+        },
+        defaultCorsPreflightOptions: {
+          allowOrigins: cdk.aws_apigateway.Cors.ALL_ORIGINS,
+          allowHeaders: cdk.aws_apigateway.Cors.DEFAULT_HEADERS,
+          allowMethods: cdk.aws_apigateway.Cors.ALL_METHODS,
+        },
+      }
+    );
+    const lambdaHandler = new cdk.aws_lambda.Function(
+      this,
+      `rootLambdaHandler`,
+      {
+        runtime: cdk.aws_lambda.Runtime.NODEJS_14_X,
+        code: cdk.aws_lambda.Code.fromAsset(`../../dist/apps/rootlambda`),
+        handler: `index.lambdaHandler`,
+        // environment: props.envVariables,
+      }
+    );
+    this.api.root.addMethod(
+      'GET',
+      new cdk.aws_apigateway.LambdaIntegration(lambdaHandler),
+      { operationName: `getRoot` }
+    );
+  }
 }

@@ -1,0 +1,8 @@
+const defaultHeaders = {
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Origin': '*', //during production, only authillo is allowed to call this endpoint
+  'Access-Control-Allow-Methods': 'PUT,OPTIONS',
+};
+export const lambdaHandler = async (event: any): Promise<any> => {
+  return { statusCode: 200, headers: defaultHeaders, body: 'hello' };
+};

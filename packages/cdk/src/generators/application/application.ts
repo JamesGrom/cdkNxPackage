@@ -88,19 +88,23 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     projectType: 'application',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
-      build: {
-        executor: `@authillo/cdk:build`,
-      },
+      // build: {
+      //   executor: `@authillo/cdk:build`,
+      // },
       synth: {
         outputs: ['{options.outputPath}'],
         defaultConfiguration: 'default',
         configurations: {
           default: {
             local: false,
+            defaultStackName: `${normalizedOptions.projectName}`,
+            stackName: `${normalizedOptions.projectName}`,
             // stackNameRegexString: `^authillo-[a-z]*$`,
           },
           local: {
             local: true,
+            defaultStackName: `${normalizedOptions.projectName}`,
+            stackName: `${normalizedOptions.projectName}`,
           },
         },
         executor: `@authillo/cdk:synth`,
@@ -110,9 +114,9 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         defaultConfiguration: 'default',
         configurations: {
           default: {
-            stackName: 'backend',
-            envFile: `libs/frombackend/env/env.json`,
-            templateFile: `dist/apps/backend/local-template.yaml`,
+            stackName: `${normalizedOptions.projectName}`,
+            envFile: `libs/from${normalizedOptions.projectName}/env/env.json`,
+            templateFile: `dist/apps/${normalizedOptions.projectName}/local-template.yaml`,
           },
         },
       },

@@ -111,6 +111,8 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         configurations: {
           default: {
             stackName: 'backend',
+            envFile: `libs/frombackend/env/env.json`,
+            templateFile: `dist/apps/backend/local-template.yaml`,
           },
         },
       },

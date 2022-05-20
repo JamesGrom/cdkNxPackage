@@ -1,4 +1,4 @@
-import { <%= uppercase(functionName) %>_ERROR_CODES } from './errorcodes.ts';
+import { <%= uppercase(functionName) %>_ERROR_CODES } from './errorcodes';
 export interface <%= uppercase(functionName) %>_RESPONSE {
   result:
     | {

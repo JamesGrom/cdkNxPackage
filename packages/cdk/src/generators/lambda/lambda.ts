@@ -34,6 +34,23 @@ function normalizeOptions(
     projectDirectory,
   };
 }
+function getLambdaInterfaceTemplateOptions(
+  host: Tree,
+  options: LambdaFunctionOptions
+): NormalizedSchema {
+  const name = names('apiinterfaces').fileName;
+  const projectDirectory = name;
+  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+  const projectRoot = `${
+    getWorkspaceLayout(host).libsDir
+  }/${projectDirectory}/src/lib/endpoints`;
+  return {
+    ...options,
+    projectName,
+    projectRoot,
+    projectDirectory,
+  };
+}
 function uppercase(val: string) {
   return val.toUpperCase();
 }
@@ -73,7 +90,7 @@ function addLambdaInterfaceFiles(host: Tree, options: NormalizedSchema) {
         host,
         path.join(__dirname, 'functionInterface'),
         options.projectRoot,
-        templateOptions
+        { ...templateOptions, uppercase }
       );
       break;
     }
@@ -88,6 +105,10 @@ export async function lambdaGenerator(
   options: LambdaFunctionOptions
 ) {
   const normalizedExampleLambdaOptions = normalizeOptions(host, options);
+  const lambdaInterfaceTemplateOptions = getLambdaInterfaceTemplateOptions(
+    host,
+    options
+  );
   const exampleLambda: ProjectConfiguration = {
     root: normalizedExampleLambdaOptions.projectRoot,
     projectType: 'application',
@@ -114,6 +135,7 @@ export async function lambdaGenerator(
   const workspace = readWorkspaceConfiguration(host);
   updateWorkspaceConfiguration(host, workspace);
   addFiles(host, normalizedExampleLambdaOptions);
+  addLambdaInterfaceFiles(host, lambdaInterfaceTemplateOptions);
   await formatFiles(host);
 }
 

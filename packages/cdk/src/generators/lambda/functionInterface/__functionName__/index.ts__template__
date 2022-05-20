@@ -1,2 +1,2 @@
-export * from './errorcodes.ts';
-export * from './response.type.ts';
+export * from './errorcodes';
+export * from './response.type';

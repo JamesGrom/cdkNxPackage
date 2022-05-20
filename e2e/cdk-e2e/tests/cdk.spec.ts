@@ -71,29 +71,21 @@ describe('cdk e2e', () => {
       expect(() => {
         checkFilesExist(`apps/${funcName}/src/main.ts`);
       }).not.toThrow();
+      expect(() => {
+        checkFilesExist(
+          `libs/apiinterfaces/src/lib/endpoints/${funcName}/errorcodes.ts`
+        );
+      }).not.toThrow();
+      expect(() => {
+        checkFilesExist(
+          `libs/apiinterfaces/src/lib/endpoints/${funcName}/index.ts`
+        );
+      }).not.toThrow();
+      expect(() => {
+        checkFilesExist(
+          `libs/apiinterfaces/src/lib/endpoints/${funcName}/response.type.ts`
+        );
+      }).not.toThrow();
     }, 120000);
   });
-  // describe('--directory', () => {
-  //   it('should create src in the specified directory', async () => {
-  //     const project = uniq('cdk');
-  //     await runNxCommandAsync(
-  //       `generate @authillo/cdk:cdk ${project} --directory subdir`
-  //     );
-  //     expect(() =>
-  //       checkFilesExist(`libs/subdir/${project}/src/index.ts`)
-  //     ).not.toThrow();
-  //   }, 120000);
-  // });
-
-  // describe('--tags', () => {
-  //   it('should add tags to the project', async () => {
-  //     const projectName = uniq('cdk');
-  //     ensureNxProject('@authillo/cdk', 'dist/packages/cdk');
-  //     await runNxCommandAsync(
-  //       `generate @authillo/cdk:cdk ${projectName} --tags e2etag,e2ePackage`
-  //     );
-  //     const project = readJson(`libs/${projectName}/project.json`);
-  //     expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
-  //   }, 120000);
-  // });
 });

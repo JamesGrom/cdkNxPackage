@@ -53,7 +53,7 @@ export function createCommand(
     }
     case Commands.synthLocal: {
       const castedOptions = options as ParsedSynthLocalExecutorArgs;
-      commandString += `synth ${castedOptions.stackName} --no-staging > ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
+      commandString += `synth ${castedOptions.stackName} > ${castedOptions.offsetFromRoot}dist/apps/${castedOptions.projectName}/local-template.yaml`;
       return commandString;
     }
     case Commands.buildEnv: {

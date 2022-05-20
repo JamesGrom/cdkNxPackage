@@ -22,7 +22,8 @@ describe('cdk e2e', () => {
     // some work which can help clean up e2e leftovers
     runNxCommandAsync('reset');
   });
-  const project = uniq('cdk');
+  const project = 'cdk' + Date.now().toString().slice(-1);
+  // const project = uniq('cdk');
   it('should create application', async () => {
     await runNxCommandAsync(
       `generate @authillo/cdk:application --projName=${project}`
@@ -32,7 +33,7 @@ describe('cdk e2e', () => {
   describe('--directory', () => {
     it('should create application', async () => {
       expect(() => {
-        checkFilesExist(`apps/${project}/src/main.ts`);
+        checkFilesExist(`apps/${project}/bin/main.ts`);
       }).not.toThrow();
       expect(() => {
         checkFilesExist(`libs/from${project}/src/index.ts`);

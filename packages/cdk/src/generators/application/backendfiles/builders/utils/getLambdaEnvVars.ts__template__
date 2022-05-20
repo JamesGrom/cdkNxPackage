@@ -38,9 +38,9 @@ export const getLambdaEnvVars = async (stackName: string) => {
     if (resource.ResourceType === 'AWS::Lambda::Function') return true;
     return false;
   });
+  console.log(lambdas);
   const lambdaObjs = lambdas
     .map((lambda) => {
-      // console.log(lambda);
       return { name: lambda.PhysicalResourceId, lambda };
     })
     .filter((obj) => {
@@ -49,7 +49,7 @@ export const getLambdaEnvVars = async (stackName: string) => {
     });
   lambdaObjs.forEach((lambdaObj) => {
     lambdasWithNames.push({
-      name: lambdaObj.name!,
+      name: lambdaObj.lambda.LogicalResourceId,
       lambda: lambdaObj.lambda,
     });
     promisesToGetLambdaConfigs.push(
@@ -83,104 +83,3 @@ export const getLambdaEnvVars = async (stackName: string) => {
   });
   return newEnv;
 };
-// getLambdaEnvVars(sName)
-//   .then((resy) => {
-//     console.log(resy);
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
-// import { AWSError } from 'aws-sdk';
-// import Cloudformation = require('aws-sdk/clients/cloudformation');
-// import Lambda = require('aws-sdk/clients/lambda');
-// import { PromiseResult } from 'aws-sdk/lib/request';
-// const sName = process.argv[2];
-// // console.log(sName);
-// const cfClient = new Cloudformation({ region: 'us-east-1' });
-// const lambdaClient = new Lambda({ region: 'us-east-1' });
-// let nxtToken: string | undefined = undefined;
-// const getResources = async (
-//   stackName: string,
-//   nextToken: string | undefined = undefined
-// ) => {
-//   return cfClient
-//     .listStackResources({ StackName: stackName, NextToken: nextToken })
-//     .promise();
-// };
-// const getAllResources = async (stackName: string) => {
-//   const resources: Cloudformation.StackResourceSummary[] = [];
-//   do {
-//     const resy = await getResources(sName, nxtToken);
-//     resources.push(...(resy.StackResourceSummaries ?? []));
-//     nxtToken = resy.NextToken;
-//   } while (nxtToken != null);
-//   return resources;
-// };
-// export const getLambdaEnvVars = async (stackName: string) => {
-//   const newEnv: { [key: string]: Lambda.EnvironmentVariables } = {};
-//   const promisesToGetLambdaConfigs: Promise<
-//     PromiseResult<Lambda.FunctionConfiguration, AWSError>
-//   >[] = [];
-//   const lambdasWithNames: {
-//     name: string;
-//     lambda: Cloudformation.StackResourceSummary;
-//   }[] = [];
-//   const AllResources = await getAllResources(sName);
-//   const lambdas = AllResources.filter((resource) => {
-//     // if (resource.ResourceType === 'AWS::CloudFormation::Stack')
-//     //   console.log(resource.LogicalResourceId, resource.ResourceType);
-//     if (resource.ResourceType === 'AWS::Lambda::Function') return true;
-//     return false;
-//   });
-//   const lambdaObjs = lambdas
-//     .map((lambda) => {
-//       //   console.log(lambda);
-//       return { name: lambda.PhysicalResourceId, lambda };
-//     })
-//     .filter((obj) => {
-//       if (obj.name == null) return false;
-//       return true;
-//     });
-//   lambdaObjs.forEach((lambdaObj) => {
-//     lambdasWithNames.push({
-//       name: lambdaObj.name!,
-//       lambda: lambdaObj.lambda,
-//     });
-//     promisesToGetLambdaConfigs.push(
-//       lambdaClient
-//         .getFunctionConfiguration({ FunctionName: lambdaObj.name! })
-//         .promise()
-//         .then((resy) => {
-//           //   console.log(resy);
-//           return resy;
-//         })
-//     );
-//   });
-//   const lambdaConfigs = await Promise.all(promisesToGetLambdaConfigs);
-//   const t = lambdaConfigs
-//     .map((config, indx) => {
-//       //   console.log(config.FunctionName);
-//       if (config.Environment?.Variables != null) {
-//         return {
-//           name: lambdasWithNames[indx].name,
-//           variables: config.Environment!.Variables!,
-//         };
-//       }
-//       return undefined;
-//     })
-//     .filter((val) => {
-//       if (val == null) return false;
-//       return true;
-//     }) as { name: string; variables: Lambda.EnvironmentVariables }[];
-//   t.forEach((pair) => {
-//     newEnv[pair.name] = pair.variables;
-//   });
-//   return newEnv;
-// };
-// getLambdaEnvVars(sName)
-//   .then((resy) => {
-//     console.log(resy);
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });

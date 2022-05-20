@@ -1,7 +1,21 @@
 {
   "name": "@authillo/cdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "src/index.js",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "description": "This library was generated with [Nx](https://nx.dev).",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesGrom/cdkNxPackage.git"
+  },
+  "author": "James Grom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesGrom/cdkNxPackage/issues"
+  },
+  "homepage": "https://github.com/JamesGrom/cdkNxPackage#readme"
 }

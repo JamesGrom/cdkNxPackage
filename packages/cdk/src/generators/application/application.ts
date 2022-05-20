@@ -103,9 +103,26 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     projectType: 'application',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
-      // build: {
-      //   executor: `@authillo/cdk:build`,
-      // },
+      build: {
+        executor: '@nrwl/node:webpack',
+        outputs: ['{options.outputPath}'],
+        options: {
+          outputPath: `apps/${normalizedOptions.projectName}/compiled/cdk7`,
+          tsConfig: `apps/${normalizedOptions.projectName}/tsconfig.app.json`,
+          assets: [],
+          main: `apps/${normalizedOptions.projectName}/bin/main.ts`,
+          externalDependencies: 'none',
+          outputFileName: 'index.js',
+        },
+        configurations: {
+          production: {
+            optimization: true,
+            extractLicenses: true,
+            inspect: false,
+            fileReplacements: [],
+          },
+        },
+      },
       synth: {
         outputs: ['{options.outputPath}'],
         defaultConfiguration: 'default',
@@ -220,8 +237,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         executor: '@nrwl/node:webpack',
         outputs: ['{options.outputPath}'],
         options: {
-          // outputPath: `apps/${normalizedOptions.projectName}/functions/${normalizedExampleLambdaOptions.projectName}`,
-          outputPath: `dist/apps/${normalizedExampleLambdaOptions.projectName}`,
+          outputPath: `apps/${normalizedOptions.projectName}/compiled/${normalizedExampleLambdaOptions.projectName}`,
           main: `apps/${normalizedExampleLambdaOptions.projectName}/src/main.ts`,
           tsConfig: `apps/${normalizedExampleLambdaOptions.projectName}/tsconfig.app.json`,
           externalDependencies: 'none',

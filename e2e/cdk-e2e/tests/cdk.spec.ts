@@ -66,7 +66,7 @@ describe('cdk e2e', () => {
   describe(`--gen:lambda`, () => {
     it('should generate a lambda function', async () => {
       const result = await runNxCommandAsync(
-        `generate @authillo/cdk:lambda --functionName=${funcName}`
+        `generate @authillo/cdk:lambda --functionName=${funcName} --backendProjectName=${project}`
       );
       expect(() => {
         checkFilesExist(`apps/${funcName}/src/main.ts`);

@@ -47,6 +47,8 @@ export async function initGenerator(host: Tree, options: InitCdkOptions) {
       '@nrwl/node': '^13.8.3',
       tslib: '^2.4.0',
       constructs: '^10.0.118',
+      '@types/aws-lambda': '^8.10.93',
+      'aws-lambda': '^1.0.7',
       dotenv: '^16.0.0',
       'aws-sdk': '2.1137.0',
       'source-map-support': '^0.5.16',

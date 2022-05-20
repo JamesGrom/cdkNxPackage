@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "id": "AWSCdkApplication",
-  "title": "Add AWS CDK app",
+  "id": "LambdaGenerator",
+  "title": "Add lambda function to nx workspace",
   "type": "object",
   "properties": {
     "functionName": {
@@ -11,8 +11,7 @@
     },
     "backendProjectName": {
       "description": "name of the backend Project that consumes the lambda function",
-      "type": "string",
-      "default": "backend"
+      "type": "string"
     },
     "functionType": {
       "description": "type of the function",
@@ -21,5 +20,5 @@
       "default": "restEndpoint"
     }
   },
-  "required": ["functionName"]
+  "required": ["functionName", "backendProjectName"]
 }

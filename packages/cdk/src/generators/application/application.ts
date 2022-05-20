@@ -189,7 +189,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         executor: '@authillo/cdk:serve',
         dependsOn: [
           { projects: 'self', target: 'synth' },
-          { projects: 'dependencies', target: 'buildenv' },
+          // { projects: 'dependencies', target: 'buildenv' },
         ],
         defaultConfiguration: 'default',
         configurations: {
@@ -238,7 +238,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       // },
       buildfrontendenv: {
         executor: `@authillo/cdk:buildenv`,
-        dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
+        // dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
         outputs: [
           `libs/${normalizedBackendOptions.projectName}/env/frontendEnv.json`,
         ],
@@ -251,7 +251,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       buildenv: {
         executor: `@authillo/cdk:buildenv`,
         outputs: [`libs/${normalizedBackendOptions.projectName}/env/env.json`],
-        dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
+        // dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
         defaultConfiguration: `local`,
         options: { stackName: `${normalizedOptions.projectName}` },
         configurations: {

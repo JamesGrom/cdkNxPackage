@@ -118,7 +118,7 @@ export async function lambdaGenerator(
         executor: '@nrwl/node:webpack',
         outputs: ['{options.outputPath}'],
         options: {
-          outputPath: `apps/${normalizedExampleLambdaOptions.backendProjectName}/compiled/${normalizedExampleLambdaOptions.projectName}`,
+          outputPath: `dist/apps/${normalizedExampleLambdaOptions.projectName}`,
           main: `apps/${normalizedExampleLambdaOptions.projectName}/src/main.ts`,
           tsConfig: `apps/${normalizedExampleLambdaOptions.projectName}/tsconfig.app.json`,
           externalDependencies: 'none',

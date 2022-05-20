@@ -26,6 +26,9 @@ export default async function runExecutor(
   } else {
     console.log('building non-local env config');
   }
+  console.warn(
+    'Env variables will match those currently deployed to the cloud. Make sure to run <backendProjectName>:deploy to update the environment variables in the cloud'
+  );
   const result = await runBuildEnv(normalizeArgs(options, context), context);
   return {
     success: result,

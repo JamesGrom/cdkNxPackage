@@ -70,7 +70,7 @@ export function createCommand(
     }
     case Commands.deploy: {
       const castedOptions = options as ParsedDeployExecutorArgs;
-      commandString += `deploy ${castedOptions.stackName} -O ${castedOptions.offsetFromRoot}libs/from${castedOptions.projectName}/cdkOutputs/cdk.outputs.json`;
+      commandString += `deploy ${castedOptions.stackName} --require-approval=never -O ${castedOptions.offsetFromRoot}libs/from${castedOptions.projectName}/cdkOutputs/cdk.outputs.json`;
       return commandString;
     }
     default: {

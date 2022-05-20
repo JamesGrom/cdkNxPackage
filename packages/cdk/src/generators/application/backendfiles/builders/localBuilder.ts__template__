@@ -16,7 +16,7 @@ const outputs: any = getOutputs(`${process.argv[2]}`);
 const stackName = `${process.argv[3]}`;
 if (stackName == null || stackName === '') throw 'invalid stackName';
 console.log(outputs);
-const normalizedOutputs = normalizeCdkOutputs(outputs);
+const normalizedOutputs = normalizeCdkOutputs(outputs?.[stackName]);
 validateEnvVals(normalizedOutputs);
 getLambdaEnvVars(stackName).then((remoteEnvs) => {
   const computedFilePath: string = `env/${process.argv[4] ?? 'env.json'}`;

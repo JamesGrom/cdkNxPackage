@@ -22,8 +22,9 @@ describe('cdk e2e', () => {
     // some work which can help clean up e2e leftovers
     runNxCommandAsync('reset');
   });
-  const project = 'cdk' + Date.now().toString().slice(-1);
-  const funcName = 'func' + Date.now().toString().slice(-1);
+  // const project = 'cdk' + Date.now().toString().slice(-1);
+  const project = 'cdk2';
+  // const funcName = 'func' + Date.now().toString().slice(-1);
 
   // const project = uniq('cdk');
   it('should create application', async () => {
@@ -42,50 +43,50 @@ describe('cdk e2e', () => {
       }).not.toThrow();
     });
   });
-  // describe(`--synth`, () => {
-  //   it('should run synth', async () => {
-  //     const result = await runNxCommandAsync(
-  //       `run ${project}:synth --stackName=${project}`
-  //     );
-  //     expect(result.stdout).toContain(
-  //       'Successfully ran target synth for project'
-  //     );
-  //   }, 120000);
-  // });
-  describe(`--synth:local`, () => {
-    it('should run synth:local', async () => {
+  describe(`--synth`, () => {
+    it('should run synth', async () => {
       const result = await runNxCommandAsync(
-        `run ${project}:synth:local --stackName=${project}`
+        `run ${project}:synth --stackName=${project}`
       );
       expect(result.stdout).toContain(
         'Successfully ran target synth for project'
       );
     }, 120000);
   });
+  // describe(`--synth:local`, () => {
+  //   it('should run synth:local', async () => {
+  //     const result = await runNxCommandAsync(
+  //       `run ${project}:synth:local --stackName=${project}`
+  //     );
+  //     expect(result.stdout).toContain(
+  //       'Successfully ran target synth for project'
+  //     );
+  //   }, 120000);
+  // });
 
-  describe(`--gen:lambda`, () => {
-    it('should generate a lambda function', async () => {
-      const result = await runNxCommandAsync(
-        `generate @authillo/cdk:lambda --functionName=${funcName} --backendProjectName=${project}`
-      );
-      expect(() => {
-        checkFilesExist(`apps/${funcName}/src/main.ts`);
-      }).not.toThrow();
-      expect(() => {
-        checkFilesExist(
-          `libs/apiinterfaces/src/lib/endpoints/${funcName}/errorcodes.ts`
-        );
-      }).not.toThrow();
-      expect(() => {
-        checkFilesExist(
-          `libs/apiinterfaces/src/lib/endpoints/${funcName}/index.ts`
-        );
-      }).not.toThrow();
-      expect(() => {
-        checkFilesExist(
-          `libs/apiinterfaces/src/lib/endpoints/${funcName}/response.type.ts`
-        );
-      }).not.toThrow();
-    }, 120000);
-  });
+  // describe(`--gen:lambda`, () => {
+  //   it('should generate a lambda function', async () => {
+  //     const result = await runNxCommandAsync(
+  //       `generate @authillo/cdk:lambda --functionName=${funcName} --backendProjectName=${project}`
+  //     );
+  //     expect(() => {
+  //       checkFilesExist(`apps/${funcName}/src/main.ts`);
+  //     }).not.toThrow();
+  //     expect(() => {
+  //       checkFilesExist(
+  //         `libs/apiinterfaces/src/lib/endpoints/${funcName}/errorcodes.ts`
+  //       );
+  //     }).not.toThrow();
+  //     expect(() => {
+  //       checkFilesExist(
+  //         `libs/apiinterfaces/src/lib/endpoints/${funcName}/index.ts`
+  //       );
+  //     }).not.toThrow();
+  //     expect(() => {
+  //       checkFilesExist(
+  //         `libs/apiinterfaces/src/lib/endpoints/${funcName}/response.type.ts`
+  //       );
+  //     }).not.toThrow();
+  //   }, 120000);
+  // });
 });

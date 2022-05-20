@@ -16,7 +16,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   console.log(
-    `Executor running for Synth with config = ${context.configurationName} , options = ${options}`,
+    `Executor running for BuildEnv with config = ${context.configurationName} , options = ${options}`,
     options
   );
   if (options.local === true) {

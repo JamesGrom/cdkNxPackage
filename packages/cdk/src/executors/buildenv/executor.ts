@@ -1,4 +1,4 @@
-import { ExecutorContext, readJsonFile } from '@nrwl/devkit';
+import { ExecutorContext, offsetFromRoot, readJsonFile } from '@nrwl/devkit';
 import path = require('path');
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
@@ -9,6 +9,8 @@ export interface ParsedBuildEnvExecutorArgs {
   stackName: string;
   root: string;
   fileName: string;
+  cdkOutputsFile: string;
+  offsetFromRoot: string;
 }
 
 export default async function runExecutor(
@@ -43,10 +45,13 @@ function normalizeArgs(
   const currentConfig =
     context?.workspace?.projects?.[context.projectName ?? ''];
   const { root } = currentConfig;
+  const offset = offsetFromRoot(`apps/${context.projectName}`);
   return {
     local: options.local,
     stackName: options.stackName,
     fileName: options.cdkOutputsFileName,
+    cdkOutputsFile: options.pathToCdkOutputs ?? ``,
+    offsetFromRoot: offset,
     root,
   };
 }

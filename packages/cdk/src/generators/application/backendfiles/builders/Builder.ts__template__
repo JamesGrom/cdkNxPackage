@@ -12,8 +12,7 @@ const normalizeCdkOutputs = (input: object) => {
   };
 };
 const outputs: any = getOutputs(`${process.argv[2]}`);
-console.log(outputs);
 const normalizedOutputs = normalizeCdkOutputs(outputs);
 validateEnvVals(normalizedOutputs);
-const computedFilePath: string = `env/${process.argv[4] ?? 'env.json'}`;
+const computedFilePath: string = `env/${process.argv[4] ?? 'frontendEnv.json'}`;
 composeEnvFile(JSON.stringify(normalizedOutputs), computedFilePath);

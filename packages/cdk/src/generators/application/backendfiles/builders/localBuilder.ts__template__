@@ -1,25 +1,13 @@
 import { composeEnvFile } from './utils/composeEnvFile';
 import { getOutputs } from './utils/getOutputs';
-import { validateEnvVals } from './utils/validateEnvVals';
 import { getLambdaEnvVars } from './utils/getLambdaEnvVars';
-const defaultOutputValues = {
-  restURL: 'https://127.0.0.1:3000',
-};
-const normalizeCdkOutputs = (input: object) => {
-  return {
-    ...input,
-    ...defaultOutputValues,
-  };
-};
 
 const outputs: any = getOutputs(`${process.argv[2]}`);
 const stackName = `${process.argv[3]}`;
 if (stackName == null || stackName === '') throw 'invalid stackName';
 console.log(outputs);
-const normalizedOutputs = normalizeCdkOutputs(outputs?.[stackName]);
-validateEnvVals(normalizedOutputs);
 getLambdaEnvVars(stackName).then((remoteEnvs) => {
   const computedFilePath: string = `env/${process.argv[4] ?? 'env.json'}`;
-  const compositeOutputs = { ...normalizedOutputs, ...remoteEnvs };
+  const compositeOutputs = { ...remoteEnvs };
   composeEnvFile(JSON.stringify(compositeOutputs), computedFilePath);
 });

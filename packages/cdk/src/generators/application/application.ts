@@ -45,6 +45,43 @@ function normalizeOptions(
     parsedTags,
   };
 }
+function genOptionsToTouchLocalSynthFiles(
+  host: Tree,
+  options: CdkAppOptions
+): NormalizedSchema {
+  const name = names(options.projName ?? 'backend').fileName;
+  const projectDirectory = options.directory
+    ? `${names(options.directory).fileName}/${name}`
+    : name;
+  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+  const projectRoot = `${
+    getWorkspaceLayout(host).appsDir
+  }/../dist/apps/${projectDirectory}`;
+  const parsedTags = options.tags
+    ? options.tags.split(',').map((s) => s.trim())
+    : [];
+  return {
+    ...options,
+    projectName,
+    projectRoot,
+    projectDirectory,
+    parsedTags,
+  };
+}
+function touchLocalSynthFiles(host: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.projectName),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    host,
+    path.join(__dirname, 'touchFile'),
+    options.projectRoot,
+    templateOptions
+  );
+}
 
 function addFiles(host: Tree, options: NormalizedSchema) {
   const templateOptions = {
@@ -102,7 +139,10 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     root: normalizedOptions.projectRoot,
     projectType: 'application',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    implicitDependencies: ['rootlambda'],
+    implicitDependencies: [
+      'rootlambda',
+      `from${normalizedOptions.projectName}`,
+    ],
     targets: {
       run: {
         executor: '@nrwl/node:node',
@@ -134,15 +174,9 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       },
       synth: {
         outputs: ['{options.outputPath}'],
-        defaultConfiguration: 'default',
+        defaultConfiguration: 'local',
         dependsOn: [{ projects: 'self', target: 'build' }],
         configurations: {
-          default: {
-            local: false,
-            defaultStackName: `${normalizedOptions.projectName}`,
-            stackName: `${normalizedOptions.projectName}`,
-            // stackNameRegexString: `^authillo-[a-z]*$`,
-          },
           local: {
             local: true,
             defaultStackName: `${normalizedOptions.projectName}`,
@@ -153,6 +187,10 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       },
       serve: {
         executor: '@authillo/cdk:serve',
+        dependsOn: [
+          { projects: 'self', target: 'synth' },
+          { projects: 'dependencies', target: 'buildenv' },
+        ],
         defaultConfiguration: 'default',
         configurations: {
           default: {
@@ -187,24 +225,36 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     sourceRoot: `${normalizedBackendOptions.projectRoot}/src`,
     implicitDependencies: [`${normalizedOptions.projectName}`],
     targets: {
-      build: {
-        executor: '@nrwl/js:tsc',
-        outputs: ['{options.outputPath}'],
-        options: {
-          outputPath: `dist/libs/${normalizedBackendOptions.projectName}`, //'dist/libs/gql-operations',
-          tsConfig: `libs/${normalizedBackendOptions.projectName}/tsconfig.lib.json`,
-          packageJson: `libs/${normalizedBackendOptions.projectName}/package.json`,
-          main: `libs/${normalizedBackendOptions.projectName}/src/index.ts`, // 'libs/gql-operations/src/index.ts',
-          assets: [`libs/${normalizedBackendOptions.projectName}/*.md`],
-        },
-      },
-      buildenv: {
+      // build: {
+      //   executor: '@nrwl/js:tsc',
+      //   outputs: ['{options.outputPath}'],
+      //   options: {
+      //     outputPath: `dist/libs/${normalizedBackendOptions.projectName}`, //'dist/libs/gql-operations',
+      //     tsConfig: `libs/${normalizedBackendOptions.projectName}/tsconfig.lib.json`,
+      //     packageJson: `libs/${normalizedBackendOptions.projectName}/package.json`,
+      //     main: `libs/${normalizedBackendOptions.projectName}/src/index.ts`, // 'libs/gql-operations/src/index.ts',
+      //     assets: [`libs/${normalizedBackendOptions.projectName}/*.md`],
+      //   },
+      // },
+      buildfrontendenv: {
         executor: `@authillo/cdk:buildenv`,
         dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
+        outputs: [
+          `libs/${normalizedBackendOptions.projectName}/env/frontendEnv.json`,
+        ],
         defaultConfiguration: `default`,
         options: { stackName: `${normalizedOptions.projectName}` },
         configurations: {
           default: {},
+        },
+      },
+      buildenv: {
+        executor: `@authillo/cdk:buildenv`,
+        outputs: [`libs/${normalizedBackendOptions.projectName}/env/env.json`],
+        dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
+        defaultConfiguration: `local`,
+        options: { stackName: `${normalizedOptions.projectName}` },
+        configurations: {
           local: {
             local: true,
           },
@@ -279,6 +329,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
   addFiles(host, normalizedOptions);
   addBackendFiles(host, normalizedBackendOptions);
   addExampleLambdaFiles(host, normalizedExampleLambdaOptions);
+  touchLocalSynthFiles(host, genOptionsToTouchLocalSynthFiles(host, options));
   await formatFiles(host);
   return runTasksInSerial(...tasks);
 }

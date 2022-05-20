@@ -14,6 +14,10 @@
       "type": "string",
       "description": "name of current stack"
     },
+    "pathToCdkOutputs": {
+      "type": "string",
+      "description": " (root relative) path to outputfile produced by cdk deploy -O"
+    },
     "cdkOutputsFileName": {
       "type": "string",
       "description": "denotes name of file produced by cdk deploy -O",

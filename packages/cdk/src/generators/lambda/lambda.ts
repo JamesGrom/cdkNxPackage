@@ -38,7 +38,7 @@ function getLambdaInterfaceTemplateOptions(
   host: Tree,
   options: LambdaFunctionOptions
 ): NormalizedSchema {
-  const name = names('apiinterfaces').fileName;
+  const name = names('restinterfaces').fileName;
   const projectDirectory = name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
   const projectRoot = `${

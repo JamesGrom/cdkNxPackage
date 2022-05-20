@@ -5,7 +5,7 @@ import {
   MinimumHeaders,
   logObj,
 } from '@nx-authillo-mono/utils';
-import { <%= uppercase(functionName) %>_ERROR_CODES, <%= uppercase(functionName)%>_RESPONSE, } from '@nx-authillo-mono/apiinterfaces';
+import { <%= uppercase(functionName) %>_ERROR_CODES, <%= uppercase(functionName)%>_RESPONSE, } from '@nx-authillo-mono/restinterfaces';
 import { envVariableNames } from '@nx-authillo-mono/awsresources';
 const isInProduction = process?.env?.isInProduction === 'true'; //flag which denotes if we're in production or not
 type proxyBodyType = <%= uppercase(functionName)%>_RESPONSE;

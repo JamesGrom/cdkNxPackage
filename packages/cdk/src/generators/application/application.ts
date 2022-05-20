@@ -107,7 +107,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         executor: '@nrwl/node:webpack',
         outputs: ['{options.outputPath}'],
         options: {
-          outputPath: `apps/${normalizedOptions.projectName}/compiled/cdk7`,
+          outputPath: `apps/${normalizedOptions.projectName}/compiled/${normalizedOptions.projectName}`,
           tsConfig: `apps/${normalizedOptions.projectName}/tsconfig.app.json`,
           assets: [],
           main: `apps/${normalizedOptions.projectName}/bin/main.ts`,

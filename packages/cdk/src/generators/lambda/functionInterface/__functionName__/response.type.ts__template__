@@ -1,17 +1,17 @@
-import { <%= functionName %>_ERROR_CODES } from './errorcodes.ts';
-export interface <%= functionName %>_RESPONSE {
+import { <%= uppercase(functionName) %>_ERROR_CODES } from './errorcodes.ts';
+export interface <%= uppercase(functionName) %>_RESPONSE {
   result:
     | {
         succeeded: true;
-        feedback: SUCCEEDED_<%= functionName %>_FEEDBACK;
+        feedback: SUCCEEDED_<%= uppercase(functionName) %>_FEEDBACK;
         code?: string;
         state?: string;
       }
-    | { succeeded: false; feedback: FAILED_<%= functionName %>_FEEDBACK };
+    | { succeeded: false; feedback: FAILED_<%= uppercase(functionName) %>_FEEDBACK };
   errObj?: any;
 }
 
-export interface FAILED_<%= functionName %>_FEEDBACK {
-  customCode: <%= functionName %>_ERROR_CODES;
+export interface FAILED_<%= uppercase(functionName) %>_FEEDBACK {
+  customCode: <%= uppercase(functionName) %>_ERROR_CODES;
 }
-export interface SUCCEEDED_<%= functionName %>_FEEDBACK {}
+export interface SUCCEEDED_<%= uppercase(functionName) %>_FEEDBACK {}

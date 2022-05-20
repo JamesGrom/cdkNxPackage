@@ -34,6 +34,9 @@ function normalizeOptions(
     projectDirectory,
   };
 }
+function uppercase(val: string) {
+  return val.toUpperCase();
+}
 
 function addFiles(host: Tree, options: NormalizedSchema) {
   const templateOptions = {
@@ -48,7 +51,7 @@ function addFiles(host: Tree, options: NormalizedSchema) {
         host,
         path.join(__dirname, 'restEndpoint'),
         options.projectRoot,
-        templateOptions
+        { ...templateOptions, uppercase }
       );
       break;
     }

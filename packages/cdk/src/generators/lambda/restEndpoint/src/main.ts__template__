@@ -5,10 +5,10 @@ import {
   MinimumHeaders,
   logObj,
 } from '@nx-authillo-mono/utils';
-import { <%= functionName %>_ERROR_CODES, <%= functionName%>_RESPONSE, } from '@nx-authillo-mono/apiinterfaces';
+import { <%= uppercase(functionName) %>_ERROR_CODES, <%= uppercase(functionName)%>_RESPONSE, } from '@nx-authillo-mono/apiinterfaces';
 import { envVariableNames } from '@nx-authillo-mono/awsresources';
 const isInProduction = process?.env?.isInProduction === 'true'; //flag which denotes if we're in production or not
-type proxyBodyType = <%= functionName%>_RESPONSE;
+type proxyBodyType = <%= uppercase(functionName)%>_RESPONSE;
 const defaultHeaders: MinimumHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Allow-Origin': !isInProduction ? '*' : 'authillo.com', //during production, only authillo is allowed to call this endpoint
@@ -41,9 +41,9 @@ const typeWrappedHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<TypeWrappedProxyResult<proxyBodyType>> => {
   try {
-    throw {code: <%= functionName%>_ERROR_CODES.BREAKPOINT_NOT_YET_IMPLEMENTED}
+    throw {code: <%= uppercase(functionName)%>_ERROR_CODES.BREAKPOINT_NOT_YET_IMPLEMENTED}
   } catch (err) {
-    const castedErr = err?.code ?? <%= functionName%>_ERROR_CODES.UNDEFINED_ERROR_CODE;
+    const castedErr = err?.code ?? <%= uppercase(functionName)%>_ERROR_CODES.UNDEFINED_ERROR_CODE;
     const castedThrownObject = {...(err ?? {}) , code:castedErr}
     const defaultReturnBody: proxyBodyType = {
       result: {

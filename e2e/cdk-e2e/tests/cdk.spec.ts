@@ -23,6 +23,8 @@ describe('cdk e2e', () => {
     runNxCommandAsync('reset');
   });
   const project = 'cdk' + Date.now().toString().slice(-1);
+  const funcName = 'func' + Date.now().toString().slice(-1);
+
   // const project = uniq('cdk');
   it('should create application', async () => {
     await runNxCommandAsync(
@@ -61,6 +63,16 @@ describe('cdk e2e', () => {
     }, 120000);
   });
 
+  describe(`--gen:lambda`, () => {
+    it('should generate a lambda function', async () => {
+      const result = await runNxCommandAsync(
+        `generate @authillo/cdk:lambda --functionName=${funcName}`
+      );
+      expect(() => {
+        checkFilesExist(`apps/${funcName}/src/main.ts`);
+      }).not.toThrow();
+    }, 120000);
+  });
   // describe('--directory', () => {
   //   it('should create src in the specified directory', async () => {
   //     const project = uniq('cdk');

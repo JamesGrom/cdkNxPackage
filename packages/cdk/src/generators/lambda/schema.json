@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "AWSCdkApplication",
+  "title": "Add AWS CDK app",
+  "type": "object",
+  "properties": {
+    "functionName": {
+      "description": "name of the lambda function to be generated",
+      "type": "string"
+    },
+    "backendProjectName": {
+      "description": "name of the backend Project that consumes the lambda function",
+      "type": "string",
+      "default": "backend"
+    },
+    "functionType": {
+      "description": "type of the function",
+      "type": "string",
+      "enum": ["restEndpoint"],
+      "default": "restEndpoint"
+    }
+  },
+  "required": ["functionName"]
+}

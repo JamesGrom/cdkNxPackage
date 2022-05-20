@@ -8,7 +8,11 @@
   "include": [
     "**/*.ts",
     "src/generators/application/backendfiles/builders/localBuilder.ts__template__",
-    "src/generators/application/backendfiles/builders/Builder.ts__template__"
+    "src/generators/application/backendfiles/builders/Builder.ts__template__",
+    "src/generators/lambda/restEndpoint/src/oldMain.ts__template__",
+    "src/generators/lambda/functionInterface/__functionName__/response.type.ts__template__",
+    "src/generators/lambda/functionInterface/__functionName__/index.ts__template__",
+    "src/generators/lambda/functionInterface/__functionName__/errorcodes.ts__template__"
   ],
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
 }

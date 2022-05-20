@@ -1,0 +1,17 @@
+import { <%= functionName %>_ERROR_CODES } from './errorcodes.ts';
+export interface <%= functionName %>_RESPONSE {
+  result:
+    | {
+        succeeded: true;
+        feedback: SUCCEEDED_<%= functionName %>_FEEDBACK;
+        code?: string;
+        state?: string;
+      }
+    | { succeeded: false; feedback: FAILED_<%= functionName %>_FEEDBACK };
+  errObj?: any;
+}
+
+export interface FAILED_<%= functionName %>_FEEDBACK {
+  customCode: <%= functionName %>_ERROR_CODES;
+}
+export interface SUCCEEDED_<%= functionName %>_FEEDBACK {}

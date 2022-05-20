@@ -102,10 +102,12 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     root: normalizedOptions.projectRoot,
     projectType: 'application',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    implicitDependencies: ['rootlambda'],
     targets: {
       build: {
         executor: '@nrwl/node:webpack',
         outputs: ['{options.outputPath}'],
+        dependsOn: [{ projects: 'dependencies', target: 'build' }],
         options: {
           outputPath: `apps/${normalizedOptions.projectName}/compiled/${normalizedOptions.projectName}`,
           tsConfig: `apps/${normalizedOptions.projectName}/tsconfig.app.json`,
@@ -126,6 +128,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       synth: {
         outputs: ['{options.outputPath}'],
         defaultConfiguration: 'default',
+        dependsOn: [{ projects: 'self', target: 'build' }],
         configurations: {
           default: {
             local: false,

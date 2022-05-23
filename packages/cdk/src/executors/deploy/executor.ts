@@ -2,6 +2,7 @@ import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
 import path = require('path');
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
+import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';
 import { Commands } from '../interfaces';
 import { DeployExecutorSchema } from './schema';
 
@@ -17,6 +18,12 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   console.log('Executor running for Deploy', options);
+  if (options.selectStackNameBasedOnCurrentGitBranch) {
+    const gitBasedStackName = await getStackNameForCurrentGitBranch(
+      options.gitBranchToCorrespondingStackName ?? {}
+    );
+    options.stackName = gitBasedStackName;
+  }
   const normalizedArgs = normalizeArgs(options, context);
   const result = await runDeploy(normalizedArgs, context);
   return {

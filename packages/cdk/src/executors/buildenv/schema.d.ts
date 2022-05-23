@@ -3,4 +3,6 @@ export interface BuildEnvExecutorSchema {
   cdkOutputsFileName: string;
   pathToCdkOutputs?: string;
   stackName: string;
+  gitBranchToCorrespondingStackName: { [key: string]: string };
+  selectStackNameBasedOnCurrentGitBranch: boolean;
 }

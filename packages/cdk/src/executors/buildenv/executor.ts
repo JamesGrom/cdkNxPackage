@@ -2,6 +2,7 @@ import { ExecutorContext, offsetFromRoot, readJsonFile } from '@nrwl/devkit';
 import path = require('path');
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
+import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';
 import { Commands } from '../interfaces';
 import { BuildEnvExecutorSchema } from './schema';
 export interface ParsedBuildEnvExecutorArgs {
@@ -29,6 +30,12 @@ export default async function runExecutor(
   console.warn(
     'Env variables will match those currently deployed to the cloud. Make sure to run <backendProjectName>:deploy to update the environment variables in the cloud'
   );
+  if (options.selectStackNameBasedOnCurrentGitBranch) {
+    const gitBasedStackName = await getStackNameForCurrentGitBranch(
+      options.gitBranchToCorrespondingStackName ?? {}
+    );
+    options.stackName = gitBasedStackName;
+  }
   const result = await runBuildEnv(normalizeArgs(options, context), context);
   return {
     success: result,

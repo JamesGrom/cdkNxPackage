@@ -12,7 +12,8 @@
     },
     "stackName": {
       "type": "string",
-      "description": "name of current stack"
+      "description": "name of current stack",
+      "default": "unsetStackName"
     },
     "pathToCdkOutputs": {
       "type": "string",
@@ -26,7 +27,15 @@
     "pathToTemplateFile": {
       "type": "string",
       "description": "path to local-template.yaml "
+    },
+    "selectStackNameBasedOnCurrentGitBranch": {
+      "type": "boolean",
+      "description": "flag denoting if stack name should be selected based on current git branch"
+    },
+    "gitBranchToCorrespondingStackName": {
+      "type": "object",
+      "description": "object representing a map of {[key: gitBranch]: stackName}"
     }
   },
-  "required": ["stackName"]
+  "required": []
 }

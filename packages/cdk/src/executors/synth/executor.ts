@@ -2,6 +2,7 @@ import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
 import path = require('path');
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
+import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';
 import { Commands } from '../interfaces';
 import { SynthExecutorSchema } from './schema';
 
@@ -25,22 +26,24 @@ export default async function runExecutor(
     `Executor running for Synth with config = ${context.configurationName}`,
     options
   );
-  switch (context.configurationName) {
-    case 'local': {
-      const normailzedArgs = normalizeLocalArgs(options, context);
-      const result = await runSynthLocal(normailzedArgs, context);
-      return {
-        success: result,
-      };
-    }
-    default: {
-      const normalizedArgs = normalizeArgs(options, context);
-      const result = await runSynth(normalizedArgs, context);
-      return {
-        success: result,
-      };
-    }
+  if (options.selectStackNameBasedOnCurrentGitBranch) {
+    const gitBasedStackName = await getStackNameForCurrentGitBranch(
+      options.gitBranchToCorrespondingStackName ?? {}
+    );
+    options.stackName = gitBasedStackName;
   }
+  if (options.local) {
+    const normailzedArgs = normalizeLocalArgs(options, context);
+    const result = await runSynthLocal(normailzedArgs, context);
+    return {
+      success: result,
+    };
+  }
+  const normalizedArgs = normalizeArgs(options, context);
+  const result = await runSynth(normalizedArgs, context);
+  return {
+    success: result,
+  };
 }
 async function runSynth(
   options: ParsedSynthExecutorArgs,

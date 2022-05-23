@@ -2,6 +2,7 @@ import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
 import path = require('path');
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
+import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';
 import { Commands } from '../interfaces';
 import { ServeExecutorSchema } from './schema';
 
@@ -22,6 +23,12 @@ export default async function runExecutor(
     `Executor running for Serve with config = ${context.configurationName}`,
     options
   );
+  if (options.selectStackNameBasedOnCurrentGitBranch) {
+    const gitBasedStackName = await getStackNameForCurrentGitBranch(
+      options.gitBranchToCorrespondingStackName ?? {}
+    );
+    options.stackName = gitBasedStackName;
+  }
   const normailzedArgs = normalizeArgs(options, context);
   const result = await runServe(normailzedArgs, context);
   return {

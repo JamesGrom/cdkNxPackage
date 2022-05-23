@@ -25,6 +25,14 @@
     "stackNameRegexString": {
       "type": "string",
       "description": "regex that must be satisfied for a stackName to be valid"
+    },
+    "selectStackNameBasedOnCurrentGitBranch": {
+      "type": "boolean",
+      "description": "flag denoting if stack name should be selected based on current git branch"
+    },
+    "gitBranchToCorrespondingStackName": {
+      "type": "object",
+      "description": "object representing a map of {[key: gitBranch]: stackName}"
     }
   },
   "required": ["local"]

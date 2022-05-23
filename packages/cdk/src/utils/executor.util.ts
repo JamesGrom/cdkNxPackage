@@ -1,4 +1,5 @@
 import { logger } from '@nrwl/devkit';
+import { getCurrentBranch } from './getCurrentBranch';
 import { exec } from 'child_process';
 import { ParsedBuildExecutorArgs } from '../executors/build/executor';
 import { BuildExecutorSchema } from '../executors/build/schema';

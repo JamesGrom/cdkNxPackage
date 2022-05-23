@@ -72,6 +72,15 @@ function addFiles(host: Tree, options: NormalizedSchema) {
       );
       break;
     }
+    case 'basicLambda': {
+      generateFiles(
+        host,
+        path.join(__dirname, 'basicLambda'),
+        options.projectRoot,
+        { ...templateOptions, uppercase }
+      );
+      break;
+    }
     default: {
       throw 'invalid function type specified';
     }
@@ -92,6 +101,10 @@ function addLambdaInterfaceFiles(host: Tree, options: NormalizedSchema) {
         options.projectRoot,
         { ...templateOptions, uppercase }
       );
+      break;
+    }
+    case 'basicLambda': {
+      console.log('no global function interfaces neaded');
       break;
     }
     default: {

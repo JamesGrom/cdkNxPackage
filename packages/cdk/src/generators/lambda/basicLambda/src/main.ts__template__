@@ -1,0 +1,63 @@
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import {
+  TypeWrappedProxyResult,
+  logTime,
+  MinimumHeaders,
+  logObj,
+} from '@nx-authillo-mono/utils';
+import { <%= uppercase(functionName) %>_ERROR_CODES} from './interfaces/errorcodes';
+import { <%= uppercase(functionName)%>_RESPONSE } from './interfaces/response.type';
+import { envVariableNames } from '@nx-authillo-mono/awsresources';
+const isInProduction = process?.env?.isInProduction === 'true'; //flag which denotes if we're in production or not
+type proxyBodyType = <%= uppercase(functionName)%>_RESPONSE;
+const defaultHeaders: MinimumHeaders = {
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Origin': !isInProduction ? '*' : 'authillo.com', //during production, only authillo is allowed to call this endpoint
+  'Access-Control-Allow-Methods': 'GET,POST,PUT,OPTIONS',
+};
+
+export const lambdaHandler = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+  if (!isInProduction) {
+    logTime();
+    logObj(event,'<%= functionName%> called with event :')
+  }
+  try {
+    const temp = await typeWrappedHandler(event);
+    const unwrappedResy = { ...temp, body: JSON.stringify(temp?.body) };
+    return unwrappedResy;
+  } catch (err) {
+    logObj(err,'lambdaHandler catch:')
+    const catchBody: proxyBodyType & any = {};
+    if (!isInProduction) catchBody.developerLog = err;
+    return {
+      statusCode: 500,
+      headers: defaultHeaders,
+      body: JSON.stringify(catchBody),
+    };
+  }
+};
+const typeWrappedHandler = async (
+  event: APIGatewayProxyEvent
+): Promise<TypeWrappedProxyResult<proxyBodyType>> => {
+  try {
+    throw {code: <%= uppercase(functionName)%>_ERROR_CODES.BREAKPOINT_NOT_YET_IMPLEMENTED}
+  } catch (err) {
+    const castedErr = err?.code ?? <%= uppercase(functionName)%>_ERROR_CODES.UNDEFINED_ERROR_CODE;
+    const castedThrownObject = {...(err ?? {}) , code:castedErr}
+    const defaultReturnBody: proxyBodyType = {
+      result: {
+        succeeded: false,
+        feedback: { customCode: castedThrownObject.code },
+      },
+    };
+    if (!isInProduction) defaultReturnBody.errObj = err;
+    const defaultReturnValue = {
+      statusCode: 200,
+      headers: defaultHeaders,
+      body: defaultReturnBody,
+    };
+    return defaultReturnValue;
+  }
+};

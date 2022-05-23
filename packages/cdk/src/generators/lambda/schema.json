@@ -16,7 +16,7 @@
     "functionType": {
       "description": "type of the function",
       "type": "string",
-      "enum": ["restEndpoint"],
+      "enum": ["restEndpoint", "basicLambda"],
       "default": "restEndpoint"
     }
   },

@@ -1,5 +1,5 @@
 import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
-import path = require('path');
+import * as path from 'path';
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
 import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';

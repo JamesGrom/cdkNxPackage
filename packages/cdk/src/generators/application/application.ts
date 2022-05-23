@@ -13,7 +13,7 @@ import {
   updateWorkspaceConfiguration,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
-import path = require('path');
+import * as path from 'path';
 import initGenerator from '../init/init';
 import { CdkAppOptions } from './schema';
 

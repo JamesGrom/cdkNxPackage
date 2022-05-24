@@ -9,6 +9,7 @@ export interface ParsedBuildEnvExecutorArgs {
   local: boolean;
   stackName: string;
   root: string;
+  builderFileName: string;
   fileName: string;
   cdkOutputsFile: string;
   offsetFromRoot: string;
@@ -56,12 +57,21 @@ function normalizeArgs(
     context?.workspace?.projects?.[context.projectName ?? ''];
   const { root } = currentConfig;
   const offset = offsetFromRoot(`apps/${context.projectName}`);
+  const builderFileName = getBuildFileName(options);
   return {
     local: options.local,
     stackName: options.stackName,
     fileName: options.cdkOutputsFileName,
     cdkOutputsFile: options.pathToCdkOutputs ?? ``,
+    builderFileName,
     offsetFromRoot: offset,
     root,
   };
+}
+
+function getBuildFileName(options: BuildEnvExecutorSchema): string {
+  const key = options.whichBuilder;
+  const fileName = options.whichBuilderToBuilderFilesMap[key];
+  if (fileName == null) throw 'no buildFile maps to given whichBuilder param';
+  return fileName;
 }

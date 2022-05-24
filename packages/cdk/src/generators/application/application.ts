@@ -260,23 +260,23 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
           },
         },
       },
-      run: {
-        executor: `@nrwl/node:node`,
-        options: {
-          buildTarget: `${normalizedBackendOptions.projectName}:build`,
-        },
-        defaultConfiguration: 'default',
-        configurations: {
-          default: {
-            args: ['local'],
-          },
-          local: {
-            args: {
-              local: true,
-            },
-          },
-        },
-      },
+      // run: {
+      //   executor: `@nrwl/node:node`,
+      //   options: {
+      //     buildTarget: `${normalizedBackendOptions.projectName}:build`,
+      //   },
+      //   defaultConfiguration: 'default',
+      //   configurations: {
+      //     default: {
+      //       args: ['local'],
+      //     },
+      //     local: {
+      //       args: {
+      //         local: true,
+      //       },
+      //     },
+      //   },
+      // },
       // build: {
       //   executor: `@authillo/cdk:buildenv`,
       //   defaultConfiguration: 'default',

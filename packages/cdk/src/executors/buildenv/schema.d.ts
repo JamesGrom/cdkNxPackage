@@ -5,4 +5,6 @@ export interface BuildEnvExecutorSchema {
   stackName: string;
   gitBranchToCorrespondingStackName: { [key: string]: string };
   selectStackNameBasedOnCurrentGitBranch: boolean;
+  whichBuilderToBuilderFilesMap: { [key: string]: string };
+  whichBuilder: string;
 }

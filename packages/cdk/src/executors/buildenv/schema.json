@@ -35,7 +35,15 @@
     "gitBranchToCorrespondingStackName": {
       "type": "object",
       "description": "object representing a map of {[key: gitBranch]: stackName}"
+    },
+    "whichBuilderToBuilderFilesMap": {
+      "type": "object",
+      "description": "object representing a map of {[key:whichBuilder}:BuilderFileName}"
+    },
+    "whichBuilder": {
+      "type": "string",
+      "description": "string used to select which builder file should be used"
     }
   },
-  "required": []
+  "required": ["whichBuilder", "whichBuilderToBuilderFilesMap"]
 }

@@ -5,16 +5,6 @@
   "description": "builds the environment variables to be used based on cdk outputs ",
   "type": "object",
   "properties": {
-    "local": {
-      "type": "boolean",
-      "description": "denotes to run local buildenv or not",
-      "default": false
-    },
-    "stackName": {
-      "type": "string",
-      "description": "name of current stack",
-      "default": "unsetStackName"
-    },
     "pathToCdkOutputs": {
       "type": "string",
       "description": " (root relative) path to outputfile produced by cdk deploy -O"
@@ -27,10 +17,6 @@
     "pathToTemplateFile": {
       "type": "string",
       "description": "path to local-template.yaml "
-    },
-    "selectStackNameBasedOnCurrentGitBranch": {
-      "type": "boolean",
-      "description": "flag denoting if stack name should be selected based on current git branch"
     },
     "gitBranchToCorrespondingStackName": {
       "type": "object",

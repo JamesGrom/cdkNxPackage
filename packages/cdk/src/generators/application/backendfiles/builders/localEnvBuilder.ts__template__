@@ -7,7 +7,7 @@ const stackName = `${process.argv[3]}`;
 if (stackName == null || stackName === '') throw 'invalid stackName';
 console.log(outputs);
 getLambdaEnvVars(stackName).then((remoteEnvs) => {
-  const computedFilePath: string = `env/${process.argv[4] ?? 'env.json'}`;
+  const computedFilePath: string = `env/${process.argv[4] ?? 'localEnv.json'}`;
   const compositeOutputs = { ...remoteEnvs };
   composeEnvFile(JSON.stringify(compositeOutputs), computedFilePath);
 });

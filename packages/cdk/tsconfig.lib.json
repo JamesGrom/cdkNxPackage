@@ -8,8 +8,8 @@
   },
   "include": [
     "**/*.ts",
-    "src/generators/application/backendfiles/builders/localBuilder.ts__template__",
-    "src/generators/application/backendfiles/builders/Builder.ts__template__",
+    "src/generators/application/backendfiles/builders/localEnvBuilder.ts__template__",
+    "src/generators/application/backendfiles/builders/frontendEnvBuilder.ts__template__",
     "src/generators/lambda/restEndpoint/src/oldMain.ts__template__",
     "src/generators/lambda/functionInterface/__functionName__/response.type.ts__template__",
     "src/generators/lambda/functionInterface/__functionName__/index.ts__template__",

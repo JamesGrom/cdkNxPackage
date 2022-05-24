@@ -6,7 +6,6 @@ import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';
 import { Commands } from '../interfaces';
 import { BuildEnvExecutorSchema } from './schema';
 export interface ParsedBuildEnvExecutorArgs {
-  local: boolean;
   stackName: string;
   root: string;
   builderFileName: string;
@@ -23,21 +22,11 @@ export default async function runExecutor(
     `Executor running for BuildEnv with config = ${context.configurationName} , options = ${options}`,
     options
   );
-  if (options.local === true) {
-    console.log('building local env config');
-  } else {
-    console.log('building non-local env config');
-  }
   console.warn(
     'Env variables will match those currently deployed to the cloud. Make sure to run <backendProjectName>:deploy to update the environment variables in the cloud'
   );
-  if (options.selectStackNameBasedOnCurrentGitBranch) {
-    const gitBasedStackName = await getStackNameForCurrentGitBranch(
-      options.gitBranchToCorrespondingStackName ?? {}
-    );
-    options.stackName = gitBasedStackName;
-  }
-  const result = await runBuildEnv(normalizeArgs(options, context), context);
+  const normalizedArgs = await normalizeArgs(options, context);
+  const result = await runBuildEnv(normalizedArgs, context);
   return {
     success: result,
   };
@@ -49,18 +38,20 @@ async function runBuildEnv(
   const t = createCommand(Commands.buildEnv, options);
   return runCommandProcess(t, path.join(context.root, options.root));
 }
-function normalizeArgs(
+async function normalizeArgs(
   options: BuildEnvExecutorSchema,
   context: ExecutorContext
-): ParsedBuildEnvExecutorArgs {
+): Promise<ParsedBuildEnvExecutorArgs> {
   const currentConfig =
     context?.workspace?.projects?.[context.projectName ?? ''];
   const { root } = currentConfig;
   const offset = offsetFromRoot(`apps/${context.projectName}`);
   const builderFileName = getBuildFileName(options);
+  const gitBasedStackName = await getStackNameForCurrentGitBranch(
+    options.gitBranchToCorrespondingStackName ?? {}
+  );
   return {
-    local: options.local,
-    stackName: options.stackName,
+    stackName: gitBasedStackName,
     fileName: options.cdkOutputsFileName,
     cdkOutputsFile: options.pathToCdkOutputs ?? ``,
     builderFileName,

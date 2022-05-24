@@ -225,70 +225,35 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
     sourceRoot: `${normalizedBackendOptions.projectRoot}/src`,
     implicitDependencies: [`${normalizedOptions.projectName}`],
     targets: {
-      // build: {
-      //   executor: '@nrwl/js:tsc',
-      //   outputs: ['{options.outputPath}'],
-      //   options: {
-      //     outputPath: `dist/libs/${normalizedBackendOptions.projectName}`, //'dist/libs/gql-operations',
-      //     tsConfig: `libs/${normalizedBackendOptions.projectName}/tsconfig.lib.json`,
-      //     packageJson: `libs/${normalizedBackendOptions.projectName}/package.json`,
-      //     main: `libs/${normalizedBackendOptions.projectName}/src/index.ts`, // 'libs/gql-operations/src/index.ts',
-      //     assets: [`libs/${normalizedBackendOptions.projectName}/*.md`],
-      //   },
-      // },
-      buildfrontendenv: {
-        executor: `@authillo/cdk:buildenv`,
-        // dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
-        outputs: [
-          `libs/${normalizedBackendOptions.projectName}/env/frontendEnv.json`,
-        ],
-        defaultConfiguration: `default`,
-        options: { stackName: `${normalizedOptions.projectName}` },
-        configurations: {
-          default: {},
-        },
-      },
       buildenv: {
         executor: `@authillo/cdk:buildenv`,
-        outputs: [`libs/${normalizedBackendOptions.projectName}/env/env.json`],
-        // dependsOn: [{ projects: 'dependencies', target: 'deploy' }],
+        outputs: [
+          `libs/${normalizedBackendOptions.projectName}/env/localEnv.json`,
+          `libs/${normalizedBackendOptions.projectName}/env/frontendEnv.json`,
+        ],
         defaultConfiguration: `local`,
-        options: { stackName: `${normalizedOptions.projectName}` },
+        options: {
+          whichBuilderToBuilderFilesMap: {
+            local: 'localEnvBuilder.ts',
+            frontend: 'frontendEnvBuilder.ts',
+          },
+          gitBranchToCorrespondingStackName: {
+            main: `${normalizedOptions.projectName}`,
+            dev: 'authillo-dev',
+            james: 'authillo-james',
+            ian: 'authillo-ian',
+            aaron: 'authillo-aaron',
+          },
+        },
         configurations: {
           local: {
-            local: true,
+            whichBuilder: 'local',
+          },
+          frontend: {
+            whichBuilder: 'frontend',
           },
         },
       },
-      // run: {
-      //   executor: `@nrwl/node:node`,
-      //   options: {
-      //     buildTarget: `${normalizedBackendOptions.projectName}:build`,
-      //   },
-      //   defaultConfiguration: 'default',
-      //   configurations: {
-      //     default: {
-      //       args: ['local'],
-      //     },
-      //     local: {
-      //       args: {
-      //         local: true,
-      //       },
-      //     },
-      //   },
-      // },
-      // build: {
-      //   executor: `@authillo/cdk:buildenv`,
-      //   defaultConfiguration: 'default',
-      //   configurations: {
-      //     local: {
-      //       local: true,
-      //     },
-      //     default: {
-      //       local: false,
-      //     },
-      //   },
-      // },
     },
   };
   addProjectConfiguration(

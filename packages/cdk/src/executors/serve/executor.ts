@@ -23,13 +23,7 @@ export default async function runExecutor(
     `Executor running for Serve with config = ${context.configurationName}`,
     options
   );
-  if (options.selectStackNameBasedOnCurrentGitBranch) {
-    const gitBasedStackName = await getStackNameForCurrentGitBranch(
-      options.gitBranchToCorrespondingStackName ?? {}
-    );
-    options.stackName = gitBasedStackName;
-  }
-  const normailzedArgs = normalizeArgs(options, context);
+  const normailzedArgs = await normalizeArgs(options, context);
   const result = await runServe(normailzedArgs, context);
   return {
     success: result,
@@ -42,10 +36,13 @@ async function runServe(
   const t = createCommand(Commands.serve, options);
   return runCommandProcess(t, path.join(context.root, options.root));
 }
-function normalizeArgs(
+async function normalizeArgs(
   options: ServeExecutorSchema,
   context: ExecutorContext
-): ParsedServeExecutorArgs {
+): Promise<ParsedServeExecutorArgs> {
+  const gitBasedStackName = await getStackNameForCurrentGitBranch(
+    options.gitBranchToCorrespondingStackName ?? {}
+  );
   const currentConfig =
     context?.workspace?.projects?.[context.projectName ?? ''];
   const { sourceRoot, root } = currentConfig;
@@ -53,10 +50,11 @@ function normalizeArgs(
   console.log(offset);
   return {
     ...options,
+    stackName: gitBasedStackName,
     templateFile:
       options.templateFile ??
-      `dist/apps/${options.stackName}/local-template.yaml`,
-    envFile: options.envFile ?? `libs/from${options.stackName}/env/env.json`,
+      `dist/apps/${gitBasedStackName}/local-template.yaml`,
+    envFile: options.envFile ?? `libs/from${gitBasedStackName}/env/env.json`,
     logFile: options.logFile ?? 'logs.txt',
     offsetFromRoot: offset,
     root,

@@ -5,11 +5,6 @@
   "description": "serves the template's api in a docker container",
   "type": "object",
   "properties": {
-    "stackName": {
-      "type": "string",
-      "description": "name of the stack to be served",
-      "default": "backend"
-    },
     "logFile": {
       "type": "string",
       "description": "path to logFile used for lambda logs"
@@ -21,10 +16,6 @@
     "templateFile": {
       "type": "string",
       "description": "(root relative) path to template file used as source for sam"
-    },
-    "selectStackNameBasedOnCurrentGitBranch": {
-      "type": "boolean",
-      "description": "flag denoting if stack name should be selected based on current git branch"
     },
     "gitBranchToCorrespondingStackName": {
       "type": "object",

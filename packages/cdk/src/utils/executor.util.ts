@@ -1,44 +1,18 @@
 import { logger } from '@nrwl/devkit';
-import { getCurrentBranch } from './getCurrentBranch';
 import { exec } from 'child_process';
-import { ParsedBuildExecutorArgs } from '../executors/build/executor';
-import { BuildExecutorSchema } from '../executors/build/schema';
 import { ParsedBuildEnvExecutorArgs } from '../executors/buildenv/executor';
 import { ParsedDeployExecutorArgs } from '../executors/deploy/executor';
 export const LARGE_BUFFER = 1024 * 1000000;
-import {
-  Commands,
-  Executors,
-  PropsForBuildExecutor,
-} from '../executors/interfaces';
+import { Commands } from '../executors/interfaces';
 import { ParsedServeExecutorArgs } from '../executors/serve/executor';
 import {
   ParsedSynthExecutorArgs,
   ParsedSynthLocalExecutorArgs,
 } from '../executors/synth/executor';
 
-export function parseArgs(
-  whichExecutor: Executors,
-  options: BuildExecutorSchema
-): Record<string, string> {
-  switch (whichExecutor) {
-    case Executors.Build: {
-      const temp: PropsForBuildExecutor = { branch: '' };
-      const validKeys = Object.keys(temp);
-      const keys = Object.keys(options);
-      return keys
-        .filter((prop) => validKeys.indexOf(prop) >= 0)
-        .reduce((acc, key) => ((acc[key] = options[key]), acc), {});
-    }
-    default:
-      return {};
-  }
-}
-
 export function createCommand(
   command: Commands,
   options:
-    | ParsedBuildExecutorArgs
     | ParsedBuildEnvExecutorArgs
     | ParsedSynthExecutorArgs
     | ParsedSynthLocalExecutorArgs

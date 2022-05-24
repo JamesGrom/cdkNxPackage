@@ -26,20 +26,14 @@ export default async function runExecutor(
     `Executor running for Synth with config = ${context.configurationName}`,
     options
   );
-  if (options.selectStackNameBasedOnCurrentGitBranch) {
-    const gitBasedStackName = await getStackNameForCurrentGitBranch(
-      options.gitBranchToCorrespondingStackName ?? {}
-    );
-    options.stackName = gitBasedStackName;
-  }
   if (options.local) {
-    const normailzedArgs = normalizeLocalArgs(options, context);
+    const normailzedArgs = await normalizeLocalArgs(options, context);
     const result = await runSynthLocal(normailzedArgs, context);
     return {
       success: result,
     };
   }
-  const normalizedArgs = normalizeArgs(options, context);
+  const normalizedArgs = await normalizeArgs(options, context);
   const result = await runSynth(normalizedArgs, context);
   return {
     success: result,
@@ -52,11 +46,14 @@ async function runSynth(
   const t = createCommand(Commands.synth, options);
   return runCommandProcess(t, path.join(context.root, options.root));
 }
-function normalizeArgs(
+async function normalizeArgs(
   options: SynthExecutorSchema,
   context: ExecutorContext
-): ParsedSynthExecutorArgs {
-  const stackName: string = options.stackName ?? options.defaultStackName;
+): Promise<ParsedSynthExecutorArgs> {
+  const gitBasedStackName = await getStackNameForCurrentGitBranch(
+    options.gitBranchToCorrespondingStackName ?? {}
+  );
+  const stackName: string = gitBasedStackName;
   const stackNameRegexString = options.stackNameRegexString;
   if (
     stackNameRegexString != null &&
@@ -82,11 +79,14 @@ async function runSynthLocal(
   const t = createCommand(Commands.synthLocal, options);
   return runCommandProcess(t, path.join(context.root, options.root));
 }
-function normalizeLocalArgs(
+async function normalizeLocalArgs(
   options: SynthExecutorSchema,
   context: ExecutorContext
-): ParsedSynthLocalExecutorArgs {
-  const stackName: string = options.stackName ?? options.defaultStackName;
+): Promise<ParsedSynthLocalExecutorArgs> {
+  const gitBasedStackName = await getStackNameForCurrentGitBranch(
+    options.gitBranchToCorrespondingStackName ?? {}
+  );
+  const stackName: string = gitBasedStackName;
   const stackNameRegexString = options.stackNameRegexString;
   if (
     stackNameRegexString != null &&

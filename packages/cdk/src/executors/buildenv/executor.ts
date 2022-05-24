@@ -1,4 +1,4 @@
-import { ExecutorContext, offsetFromRoot, readJsonFile } from '@nrwl/devkit';
+import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
 import * as path from 'path';
 
 import { createCommand, runCommandProcess } from '../../utils/executor.util';

@@ -5,30 +5,13 @@
   "description": "runs cdk synth for the given stack",
   "type": "object",
   "properties": {
-    "defaultStackName": {
-      "type": "string",
-      "description": "default stackName if none is provided",
-      "default": "backend"
-    },
-    "stackName": {
-      "type": "string",
-      "description": "name of current stack"
-    },
     "local": {
       "type": "boolean",
       "description": "denotes to run local synth or not"
     },
-    "strictStackNameChecking": {
-      "type": "boolean",
-      "description": "prevents stacks that don't satisfy stackNameRegex from being created"
-    },
     "stackNameRegexString": {
       "type": "string",
       "description": "regex that must be satisfied for a stackName to be valid"
-    },
-    "selectStackNameBasedOnCurrentGitBranch": {
-      "type": "boolean",
-      "description": "flag denoting if stack name should be selected based on current git branch"
     },
     "gitBranchToCorrespondingStackName": {
       "type": "object",

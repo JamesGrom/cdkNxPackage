@@ -153,7 +153,6 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
           tsConfig: `apps/${normalizedOptions.projectName}/tsconfig.app.json`,
           assets: [],
           main: `apps/${normalizedOptions.projectName}/bin/main.ts`,
-          externalDependencies: 'none',
           outputFileName: 'index.js',
         },
         configurations: {
@@ -182,10 +181,7 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       },
       serve: {
         executor: '@authillo/cdk:serve',
-        dependsOn: [
-          { projects: 'self', target: 'synth' },
-          // { projects: 'dependencies', target: 'buildenv' },
-        ],
+        dependsOn: [{ projects: 'self', target: 'synth' }],
         defaultConfiguration: 'default',
         options: {
           gitBranchToCorrespondingStackName: {

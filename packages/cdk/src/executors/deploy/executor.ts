@@ -18,13 +18,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   console.log('Executor running for Deploy', options);
-  if (options.selectStackNameBasedOnCurrentGitBranch) {
-    const gitBasedStackName = await getStackNameForCurrentGitBranch(
-      options.gitBranchToCorrespondingStackName ?? {}
-    );
-    options.stackName = gitBasedStackName;
-  }
-  const normalizedArgs = normalizeArgs(options, context);
+  const normalizedArgs = await normalizeArgs(options, context);
   const result = await runDeploy(normalizedArgs, context);
   return {
     success: result,
@@ -38,11 +32,13 @@ async function runDeploy(
   return runCommandProcess(t, path.join(context.root, options.root));
 }
 
-function normalizeArgs(
+async function normalizeArgs(
   options: DeployExecutorSchema,
   context: ExecutorContext
-): ParsedDeployExecutorArgs {
-  const stackName: string = options.stackName;
+): Promise<ParsedDeployExecutorArgs> {
+  const stackName: string = await getStackNameForCurrentGitBranch(
+    options.gitBranchToCorrespondingStackName ?? {}
+  );
   const stackNameRegexString = options.stackNameRegexString;
   if (
     stackNameRegexString != null &&

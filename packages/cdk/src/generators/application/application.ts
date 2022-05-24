@@ -144,13 +144,6 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       `from${normalizedOptions.projectName}`,
     ],
     targets: {
-      run: {
-        executor: '@nrwl/node:node',
-        options: {
-          buildTarget: `${normalizedOptions.projectName}:build`,
-          watch: false,
-        },
-      },
       build: {
         executor: '@nrwl/node:webpack',
         outputs: ['{options.outputPath}'],
@@ -174,14 +167,16 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
       },
       synth: {
         outputs: ['{options.outputPath}'],
-        defaultConfiguration: 'local',
         dependsOn: [{ projects: 'self', target: 'build' }],
-        configurations: {
-          local: {
-            local: true,
-            defaultStackName: `${normalizedOptions.projectName}`,
-            stackName: `${normalizedOptions.projectName}`,
+        options: {
+          gitBranchToCorrespondingStackName: {
+            main: `${normalizedOptions.projectName}`,
+            dev: 'authillo-dev',
+            james: 'authillo-james',
+            ian: 'authillo-ian',
+            aaron: 'authillo-aaron',
           },
+          local: true,
         },
         executor: `@authillo/cdk:synth`,
       },
@@ -192,9 +187,17 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
           // { projects: 'dependencies', target: 'buildenv' },
         ],
         defaultConfiguration: 'default',
+        options: {
+          gitBranchToCorrespondingStackName: {
+            main: `${normalizedOptions.projectName}`,
+            dev: 'authillo-dev',
+            james: 'authillo-james',
+            ian: 'authillo-ian',
+            aaron: 'authillo-aaron',
+          },
+        },
         configurations: {
           default: {
-            stackName: `${normalizedOptions.projectName}`,
             envFile: `libs/from${normalizedOptions.projectName}/env/env.json`,
             templateFile: `dist/apps/${normalizedOptions.projectName}/local-template.yaml`,
           },
@@ -207,10 +210,17 @@ export async function applicationGenerator(host: Tree, options: CdkAppOptions) {
         executor: `@authillo/cdk:deploy`,
         defaultConfiguration: 'default',
         dependsOn: [{ projects: 'self', target: 'build' }],
-        configurations: {
-          default: {
-            stackName: `${normalizedOptions.projectName}`,
+        options: {
+          gitBranchToCorrespondingStackName: {
+            main: `${normalizedOptions.projectName}`,
+            dev: 'authillo-dev',
+            james: 'authillo-james',
+            ian: 'authillo-ian',
+            aaron: 'authillo-aaron',
           },
+        },
+        configurations: {
+          default: {},
         },
       },
     },

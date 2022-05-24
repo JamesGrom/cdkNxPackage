@@ -22,5 +22,5 @@
       "description": "object representing a map of {[key: gitBranch]: stackName}"
     }
   },
-  "required": []
+  "required": ["gitBranchToCorrespondingStackName"]
 }

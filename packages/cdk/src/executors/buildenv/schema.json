@@ -31,5 +31,10 @@
       "description": "string used to select which builder file should be used"
     }
   },
-  "required": ["whichBuilder", "whichBuilderToBuilderFilesMap"]
+  "required": [
+    "whichBuilder",
+    "whichBuilderToBuilderFilesMap",
+    "gitBranchToCorrespondingStackName",
+    "cdkOutputsFileName"
+  ]
 }

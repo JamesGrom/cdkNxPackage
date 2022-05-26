@@ -17,6 +17,7 @@ export interface ParsedSynthLocalExecutorArgs {
   offsetFromRoot: string;
   root: string;
   projectName: string;
+  nostaging: boolean;
 }
 export default async function runExecutor(
   options: SynthExecutorSchema,

@@ -16,6 +16,11 @@
     "gitBranchToCorrespondingStackName": {
       "type": "object",
       "description": "object representing a map of {[key: gitBranch]: stackName}"
+    },
+    "nostaging": {
+      "type": "boolean",
+      "description": "flag denoting if --no-staging option should be selected",
+      "default": false
     }
   },
   "required": ["local", "gitBranchToCorrespondingStackName"]

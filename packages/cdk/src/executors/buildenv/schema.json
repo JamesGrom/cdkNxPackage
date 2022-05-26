@@ -5,26 +5,14 @@
   "description": "builds the environment variables to be used based on cdk outputs ",
   "type": "object",
   "properties": {
-    "pathToCdkOutputs": {
-      "type": "string",
-      "description": " (root relative) path to outputfile produced by cdk deploy -O"
-    },
     "cdkOutputsFileName": {
       "type": "string",
       "description": "denotes name of file produced by cdk deploy -O",
       "default": "cdk.outputs.json"
     },
-    "pathToTemplateFile": {
-      "type": "string",
-      "description": "path to local-template.yaml "
-    },
     "gitBranchToCorrespondingStackName": {
       "type": "object",
       "description": "object representing a map of {[key: gitBranch]: stackName}"
-    },
-    "whichBuilderToBuilderFilesMap": {
-      "type": "object",
-      "description": "object representing a map of {[key:whichBuilder}:BuilderFileName}"
     },
     "whichBuilder": {
       "type": "string",
@@ -33,7 +21,6 @@
   },
   "required": [
     "whichBuilder",
-    "whichBuilderToBuilderFilesMap",
     "gitBranchToCorrespondingStackName",
     "cdkOutputsFileName"
   ]

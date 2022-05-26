@@ -38,7 +38,14 @@ export function createCommand(
     }
     case Commands.serve: {
       const castedOptions = options as ParsedServeExecutorArgs;
-      commandString = `sam local start-api -t ${castedOptions.offsetFromRoot}${castedOptions.templateFile} -l ${castedOptions.logFile} -n ${castedOptions.offsetFromRoot}${castedOptions.envFile}`;
+      const warmContainersParam = castedOptions.warmContainers ?? null;
+      // if(warmContainersParam != null)
+      const warmContainersString =
+        warmContainersParam != null
+          ? `--warm-containers=${warmContainersParam}`
+          : '';
+
+      commandString = `sam local start-api -t ${castedOptions.offsetFromRoot}${castedOptions.templateFile} -l ${castedOptions.logFile} -n ${castedOptions.offsetFromRoot}${castedOptions.envFile} ${warmContainersString}`;
       return commandString;
     }
     case Commands.deploy: {

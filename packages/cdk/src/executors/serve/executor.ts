@@ -4,13 +4,14 @@ import * as path from 'path';
 import { createCommand, runCommandProcess } from '../../utils/executor.util';
 import { getStackNameForCurrentGitBranch } from '../../utils/getCurrentBranch';
 import { Commands } from '../interfaces';
-import { ServeExecutorSchema } from './schema';
+import { ServeExecutorSchema, warmContainers } from './schema';
 
 export interface ParsedServeExecutorArgs {
   sourceRoot: string;
   stackName: string;
   logFile: string;
   envFile: string;
+  warmContainers?: warmContainers;
   templateFile: string;
   offsetFromRoot: string;
   root: string;

@@ -20,6 +20,11 @@
     "gitBranchToCorrespondingStackName": {
       "type": "object",
       "description": "object representing a map of {[key: gitBranch]: stackName}"
+    },
+    "warmContainers": {
+      "type": "string",
+      "enum": ["LAZY", "EAGER"],
+      "description": "param passed to sam start local-api  --warm-containers=<warmContainers>"
     }
   },
   "required": ["gitBranchToCorrespondingStackName"]

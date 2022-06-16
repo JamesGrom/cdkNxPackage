@@ -20,6 +20,11 @@
       "implementation": "./src/executors/deploy/executor",
       "schema": "./src/executors/deploy/schema.json",
       "description": "deploy executor"
+    },
+    "dummybuild": {
+      "implementation": "./src/executors/dummybuild/executor",
+      "schema": "./src/executors/dummybuild/schema.json",
+      "description": "fills target projects output with a blank folder"
     }
   }
 }

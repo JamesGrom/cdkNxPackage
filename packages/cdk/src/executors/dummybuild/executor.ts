@@ -1,7 +1,9 @@
 import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
+import * as fs from 'fs';
+
 import { DummybuildExecutorSchema } from './schema';
 
-export interface NormalizedDummyBuildOptions {
+export interface NormalizedDummyBuildOptions extends DummybuildExecutorSchema {
   sourceRoot: string;
   offsetFromRoot: string;
   root: string;
@@ -13,6 +15,9 @@ export default async function runExecutor(
 ) {
   const normOptions = normailzeArgs(options, context);
   console.log('Executor ran for Dummybuild', normOptions);
+  for (const filepath in normOptions.filesToFillWithDummyData) {
+    writeEmptyDataToFilePath(filepath);
+  }
   return {
     success: true,
   };
@@ -33,4 +38,8 @@ const normailzeArgs = (
     projectName: context.projectName,
     ...options,
   };
+};
+
+const writeEmptyDataToFilePath = (filePath: string) => {
+  fs.closeSync(fs.openSync(filePath, 'w'));
 };

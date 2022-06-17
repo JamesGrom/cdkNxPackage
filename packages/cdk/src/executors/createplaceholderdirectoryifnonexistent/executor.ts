@@ -1,22 +1,22 @@
 import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
 import * as fs from 'fs';
-// import * as path from 'path';
 
-import { DummybuildExecutorSchema } from './schema';
-
-export interface NormalizedDummyBuildOptions extends DummybuildExecutorSchema {
+import { CreateplaceholderdirectoryifnonexistentExecutorSchema } from './schema';
+export interface NormOptions
+  extends CreateplaceholderdirectoryifnonexistentExecutorSchema {
   sourceRoot: string;
   offsetFromRoot: string;
   root: string;
   projectName: string;
 }
+
 export default async function runExecutor(
-  options: DummybuildExecutorSchema,
+  options: CreateplaceholderdirectoryifnonexistentExecutorSchema,
   context: ExecutorContext
 ) {
   const normOptions = normailzeArgs(options, context);
   console.log('Executor ran for Dummybuild', normOptions);
-  normOptions.filesToFillWithDummyData.forEach((filepath) => {
+  normOptions.directoriesThatNeedToExist.forEach((filepath) => {
     createEmptyDirectoryIfNonExistent(filepath);
   });
   return {
@@ -25,9 +25,9 @@ export default async function runExecutor(
 }
 
 const normailzeArgs = (
-  options: DummybuildExecutorSchema,
+  options: CreateplaceholderdirectoryifnonexistentExecutorSchema,
   context: ExecutorContext
-): NormalizedDummyBuildOptions => {
+): NormOptions => {
   const currentConfig =
     context?.workspace?.projects?.[context.projectName ?? ''];
   const { sourceRoot, root } = currentConfig;

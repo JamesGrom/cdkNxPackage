@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Createplaceholderdirectoryifnonexistent executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "directoriesThatNeedToExist": {
+      "type": "array",
+      "description": "list of directories to create if not already present",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["directoriesThatNeedToExist"]
+}

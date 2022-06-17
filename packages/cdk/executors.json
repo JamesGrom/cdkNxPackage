@@ -25,6 +25,11 @@
       "implementation": "./src/executors/dummybuild/executor",
       "schema": "./src/executors/dummybuild/schema.json",
       "description": "fills target projects output with a blank folder"
+    },
+    "createplaceholderdirectoryifnonexistent": {
+      "implementation": "./src/executors/createplaceholderdirectoryifnonexistent/executor",
+      "schema": "./src/executors/createplaceholderdirectoryifnonexistent/schema.json",
+      "description": "creates empty directories specified in executor options if they dont already exist"
     }
   }
 }

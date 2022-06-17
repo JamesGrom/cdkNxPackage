@@ -1,5 +1,6 @@
 import { ExecutorContext, offsetFromRoot } from '@nrwl/devkit';
 import * as fs from 'fs';
+// import * as path from 'path';
 
 import { DummybuildExecutorSchema } from './schema';
 
@@ -15,9 +16,9 @@ export default async function runExecutor(
 ) {
   const normOptions = normailzeArgs(options, context);
   console.log('Executor ran for Dummybuild', normOptions);
-  for (const filepath in normOptions.filesToFillWithDummyData) {
+  normOptions.filesToFillWithDummyData.forEach((filepath) => {
     writeEmptyDataToFilePath(filepath);
-  }
+  });
   return {
     success: true,
   };
@@ -41,5 +42,6 @@ const normailzeArgs = (
 };
 
 const writeEmptyDataToFilePath = (filePath: string) => {
+  console.log(`writing empty data to ${filePath}`);
   fs.closeSync(fs.openSync(filePath, 'w'));
 };

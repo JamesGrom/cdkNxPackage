@@ -17,7 +17,7 @@ export default async function runExecutor(
   const normOptions = normailzeArgs(options, context);
   console.log('Executor ran for Dummybuild', normOptions);
   normOptions.filesToFillWithDummyData.forEach((filepath) => {
-    writeEmptyDataToFilePath(filepath);
+    createEmptyDirectoryIfNonExistent(filepath);
   });
   return {
     success: true,
@@ -41,7 +41,9 @@ const normailzeArgs = (
   };
 };
 
-const writeEmptyDataToFilePath = (filePath: string) => {
-  console.log(`writing empty data to ${filePath}`);
-  fs.closeSync(fs.openSync(filePath, 'w'));
+const createEmptyDirectoryIfNonExistent = (filePath: string) => {
+  if (!fs.existsSync(filePath)) {
+    console.log(`creating empty directory: ${filePath}`);
+    fs.mkdirSync(filePath, { recursive: true });
+  }
 };
